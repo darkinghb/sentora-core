@@ -1,17 +1,5 @@
 <?php
 
-/**
- * @copyright 2014-2015 Sentora Project (http://www.sentora.org/) 
- * Sentora is a GPL fork of the ZPanel Project whose original header follows:
- *
- * The web gui initiation script.
- * @package zpanelx
- * @subpackage core
- * @author Bobby Allen (ballen@bobbyallen.me)
- * @copyright ZPanel Project (http://www.zpanelcp.com/)
- * @link http://www.zpanelcp.com/
- * @license GPL (http://www.gnu.org/licenses/gpl.html)
- */
 global $controller, $zdbh, $zlo;
 $controller = new runtime_controller();
 
@@ -50,7 +38,7 @@ if (isset($_POST['inForgotPassword'])) {
     $rows = $sth->fetchAll();
     if ($rows) {
         $result = $rows['0'];
-        $zdbh->exec("UPDATE x_accounts SET ac_resethash_tx = '" . $randomkey . "' WHERE ac_id_pk=" . $result['ac_id_pk'] . "");
+        $zdbh->exec("UPDATE x_accounts SET ac_resethash_tx = '" . $randomkey . "' WHERE ac_id_pk='" . $result['ac_id_pk'] . "'");
         if (isset($_SERVER['HTTPS'])) {
             $protocol = 'https://';
         } else {

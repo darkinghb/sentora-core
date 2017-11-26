@@ -115,11 +115,6 @@ class db_driver extends PDO {
         return $res2 . $stack2 . "}";
     }
 
-    /**
-     *
-     * @param String $query
-     * @return type
-     */
     public function query($query) {
         try {
             $result = parent::query($query);
@@ -136,12 +131,6 @@ class db_driver extends PDO {
         }
     }
 
-    /**
-     *
-     * @param String $query
-     * @deprecated since version 10.0.1
-     * @return type
-     */
     public function exec($query) {
         try {
             $result = parent::exec($query);
@@ -179,12 +168,7 @@ class db_driver extends PDO {
         return $sqlPrepare;
     }
 
-    /**
-     *
-     * @param String $query
-     * @param Array $driver_options
-     * @return type
-     */
+
     public function prepare($query, $driver_options = array()) {
         try {
             $result = parent::prepare($query, $driver_options);

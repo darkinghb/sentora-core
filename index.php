@@ -21,6 +21,6 @@ debug_phperrors::SetMode(ctrl_options::GetSystemOption('debug_mode'));
 require_once 'inc/init.inc.php';
 //This is where we check the session for hi-jacking
 if(!runtime_sessionsecurity::antiSessionHijacking()){
-    exit(header("location: ./?sessionIssue"));
+    header('location: ./?sessionIssue');
+    exit;
 }
-?>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright 2014-2015 Sentora Project (http://www.sentora.org/) 
+ * @copyright 2014-2015 Sentora Project (http://www.sentora.org/)
  * Sentora is a GPL fork of the ZPanel Project whose original header follows:
  *
  * Initiates the database driver object and debug object and registers the $zdhb and $zlo globals for the framework.
@@ -15,12 +15,7 @@
 /**
  * @global debug_logger $zlo
  */
-global $zlo;
-
-/**
- * @global db_driver $zdbh
- */
-global $zdbh;
+global $zlo, $zdbh;
 
 $zlo = new debug_logger();
 
@@ -50,4 +45,3 @@ try {
 
     die($error_html);
 }
-?>

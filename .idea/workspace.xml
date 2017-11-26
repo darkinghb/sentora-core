@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="cdd7ee72-bbf9-4e80-8c50-2ca499eccb70" name="Default" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="installer.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/installer.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="890" column="67" lean-forward="false" selection-start-line="890" selection-start-column="28" selection-end-line="890" selection-end-column="67" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="22" column="37" lean-forward="false" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sessionsecurity.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dryden/runtime/sessionsecurity.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="15" column="21" lean-forward="true" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dbc.inc.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/inc/dbc.inc.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="17" column="16" lean-forward="false" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+              <folding>
+                <marker date="1511728959828" expanded="true" signature="1041:1460" ph="..." />
+                <marker date="1511728959828" expanded="true" signature="1070:1340" ph="{...}" />
+                <marker date="1511728959828" expanded="true" signature="1355:1440" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OnDaemonRun.hook.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/zpx_core_module/hooks/OnDaemonRun.hook.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="23" lean-forward="false" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
+              <folding>
+                <marker date="1511728990498" expanded="true" signature="138:209" ph="SELECT ac_id... x_accounts" />
+                <marker date="1511728990498" expanded="true" signature="722:815" ph="SELECT COUNT... x_bandwidth" />
+                <marker date="1511728990498" expanded="true" signature="1076:1267" ph="INSERT INTO x_bandwidth... " />
+                <marker date="1511728990498" expanded="true" signature="1481:1555" ph="UPDATE x_ban... " />
+                <marker date="1511728990498" expanded="true" signature="1723:1800" ph="SELECT * FRO... x_bandwidth" />
+                <marker date="1511728990498" expanded="true" signature="2098:2166" ph="UPDATE x_ban... " />
+                <marker date="1511728990498" expanded="true" signature="2317:2385" ph="UPDATE x_ban... " />
+                <marker date="1511728990498" expanded="true" signature="2802:2868" ph="SELECT COUNT... x_vhosts" />
+                <marker date="1511728990498" expanded="true" signature="3067:3137" ph="SELECT vh_ac... x_vhosts" />
+                <marker date="1511728990498" expanded="true" signature="4386:4510" ph="UPDATE x_ban... " />
+                <marker date="1511728990498" expanded="true" signature="4895:4973" ph="SELECT * FRO... x_bandwidth" />
+                <marker date="1511728990498" expanded="true" signature="5306:5377" ph="UPDATE x_ban... " />
+                <marker date="1511728990498" expanded="true" signature="5545:5615" ph="UPDATE x_ban... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="driver.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dryden/db/driver.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="196">
+              <caret line="131" column="5" lean-forward="true" selection-start-line="131" selection-start-column="5" selection-end-line="131" selection-end-column="5" />
+              <folding>
+                <marker date="1511729072693" expanded="true" signature="1720:2243" ph="..." />
+                <marker date="1511729072693" expanded="true" signature="1749:2019" ph="{...}" />
+                <marker date="1511729072693" expanded="true" signature="2034:2162" ph="{...}" />
+                <marker date="1511729072693" expanded="true" signature="2179:2223" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="init.inc.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/inc/init.inc.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+              <folding>
+                <marker date="1511729146288" expanded="true" signature="900:1014" ph="SELECT ac_id... x_accounts" />
+                <marker date="1511729146288" expanded="true" signature="1186:1291" ph="UPDATE x_acc... " />
+                <marker date="1511729146288" expanded="true" signature="1186:1292" ph="UPDATE x_acc... " />
+                <marker date="1511729146288" expanded="true" signature="2529:2677" ph="SELECT ac_id... x_accounts" />
+                <marker date="1511729146288" expanded="true" signature="3113:3225" ph="UPDATE x_acc... " />
+                <marker date="1511729146288" expanded="true" signature="3877:3969" ph="SELECT ac_pa... x_accounts" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>SENTORA_INSTALLER_VERSION</find>
+      <find>github.com</find>
+      <find>$SENTORA_PRECONF_VERSION</find>
+      <find>SENTORA_PRECONF_VERSION</find>
+      <find>SENTORA_</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/installer.sh" />
+        <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/dryden/runtime/sessionsecurity.class.php" />
+        <option value="$PROJECT_DIR$/inc/dbc.inc.php" />
+        <option value="$PROJECT_DIR$/modules/zpx_core_module/hooks/OnDaemonRun.hook.php" />
+        <option value="$PROJECT_DIR$/dryden/db/driver.class.php" />
+        <option value="$PROJECT_DIR$/inc/init.inc.php" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="PHP" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="381" />
+    <option name="y" value="8" />
+    <option name="width" value="814" />
+    <option name="height" value="867" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>GeneralPHP</id>
+          </State>
+          <State>
+            <id>PHP</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>PhpLanguageLevelInspection</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="sentora-core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sentora-core" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="sentora-core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sentora-core" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="inc" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cdd7ee72-bbf9-4e80-8c50-2ca499eccb70" name="Default" comment="" />
+      <created>1511727907248</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1511727907248</updated>
+      <workItem from="1511727909154" duration="80000" />
+      <workItem from="1511728019219" duration="1126000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="1206000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/installer.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/installer.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="890" column="67" lean-forward="false" selection-start-line="890" selection-start-column="28" selection-end-line="890" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="37" lean-forward="false" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dryden/runtime/sessionsecurity.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="21" lean-forward="true" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inc/dbc.inc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="17" column="16" lean-forward="false" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+          <folding>
+            <marker date="1511728959828" expanded="true" signature="1041:1460" ph="..." />
+            <marker date="1511728959828" expanded="true" signature="1070:1340" ph="{...}" />
+            <marker date="1511728959828" expanded="true" signature="1355:1440" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/zpx_core_module/hooks/OnDaemonRun.hook.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="23" lean-forward="false" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
+          <folding>
+            <marker date="1511728990498" expanded="true" signature="138:209" ph="SELECT ac_id... x_accounts" />
+            <marker date="1511728990498" expanded="true" signature="722:815" ph="SELECT COUNT... x_bandwidth" />
+            <marker date="1511728990498" expanded="true" signature="1076:1267" ph="INSERT INTO x_bandwidth... " />
+            <marker date="1511728990498" expanded="true" signature="1481:1555" ph="UPDATE x_ban... " />
+            <marker date="1511728990498" expanded="true" signature="1723:1800" ph="SELECT * FRO... x_bandwidth" />
+            <marker date="1511728990498" expanded="true" signature="2098:2166" ph="UPDATE x_ban... " />
+            <marker date="1511728990498" expanded="true" signature="2317:2385" ph="UPDATE x_ban... " />
+            <marker date="1511728990498" expanded="true" signature="2802:2868" ph="SELECT COUNT... x_vhosts" />
+            <marker date="1511728990498" expanded="true" signature="3067:3137" ph="SELECT vh_ac... x_vhosts" />
+            <marker date="1511728990498" expanded="true" signature="4386:4510" ph="UPDATE x_ban... " />
+            <marker date="1511728990498" expanded="true" signature="4895:4973" ph="SELECT * FRO... x_bandwidth" />
+            <marker date="1511728990498" expanded="true" signature="5306:5377" ph="UPDATE x_ban... " />
+            <marker date="1511728990498" expanded="true" signature="5545:5615" ph="UPDATE x_ban... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dryden/db/driver.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="131" column="5" lean-forward="true" selection-start-line="131" selection-start-column="5" selection-end-line="131" selection-end-column="5" />
+          <folding>
+            <marker date="1511729072693" expanded="true" signature="1720:2243" ph="..." />
+            <marker date="1511729072693" expanded="true" signature="1749:2019" ph="{...}" />
+            <marker date="1511729072693" expanded="true" signature="2034:2162" ph="{...}" />
+            <marker date="1511729072693" expanded="true" signature="2179:2223" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inc/init.inc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding>
+            <marker date="1511729146288" expanded="true" signature="900:1014" ph="SELECT ac_id... x_accounts" />
+            <marker date="1511729146288" expanded="true" signature="1186:1291" ph="UPDATE x_acc... " />
+            <marker date="1511729146288" expanded="true" signature="1186:1292" ph="UPDATE x_acc... " />
+            <marker date="1511729146288" expanded="true" signature="2529:2677" ph="SELECT ac_id... x_accounts" />
+            <marker date="1511729146288" expanded="true" signature="3113:3225" ph="UPDATE x_acc... " />
+            <marker date="1511729146288" expanded="true" signature="3877:3969" ph="SELECT ac_pa... x_accounts" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
