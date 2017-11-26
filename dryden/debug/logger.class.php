@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright 2014-2015 Sentora Project (http://www.sentora.org/) 
+ * @copyright 2014-2015 Sentora Project (http://www.sentora.org/)
  * Sentora is a GPL fork of the ZPanel Project whose original header follows:
  *
  * Logger class logs infomation passed to it and can record and report debug infomation in a number of ways.
@@ -13,30 +13,24 @@
  * @link http://www.zpanelcp.com/
  * @license GPL (http://www.gnu.org/licenses/gpl.html)
  */
-class debug_logger {
+class debug_logger
+{
+
+
+    public $method;
+
+    public $mextra;
+
+    public $detail;
 
     /**
-     * @var type The type of method to use to store the debug infomation (screen, file, email or database).
+     * @var string A log code eg. (ERR4433)
      */
-    var $method;
+    public $logcode;
 
-    /**
-     * @var type Any additonal (longer) infomation such as full exception code or error stack.
-     */
-    var $mextra;
-
-    /**
-     * @var type The general description of the error.
-     */
-    var $detail;
-
-    /**
-     * @var string A log code eg. (ERR4433) 
-     */
-    var $logcode;
-
-    function __construct() {
-        $this->method = "file";
+    public function __construct()
+    {
+        $this->method = 'file';
         $this->mextra = null;
         $this->detail = null;
         $this->logcode = 0;
@@ -46,28 +40,25 @@ class debug_logger {
      * Writes the log infomation out to a predefined logging medium (from $this->method)
      * @author Bobby Allen (ballen@bobbyallen.me)
      * @global db_driver $zdbh The ZPX database handle.
-     * @return boolean 
+     * @return boolean
      */
-    function writeLog() {
+    public function writeLog()
+    {
         global $zdbh;
         runtime_hook::Execute('OnWriteErrorLog');
-        if ($this->method == "screen") {
+        if ($this->method === 'screen') {
             die($this->logcode . ' - ' . $this->detail);
-        } elseif ($this->method == "file") {
+        }
+
+        if ($this->method === 'file') {
             fs_filehandler::AddTextToFile(ctrl_options::GetSystemOption('logfile'), date('c') . ' - ' . $this->logcode . ' - ' . $this->detail, 1);
-        } elseif ($this->method == "email") {
+        } elseif ($this->method === 'email') {
             $email_log = new sys_email();
-            $email_log->Subject = "Sentora Error Log";
-            $email_log->Body = "" . date('c') . ' - ' . $this->logcode . ' - ' . $this->detail . "";
+            $email_log->Subject = 'Sentora Error Log';
+            $email_log->Body = '' . date('c') . ' - ' . $this->logcode . ' - ' . $this->detail . '';
             $email_log->AddAddress(ctrl_options::GetSystemOption('email_from_address'));
             $email_log->SendEmail();
-        } elseif ($this->method == "db") {
-            $statement = "INSERT INTO x_logs (lg_user_fk, lg_code_vc, lg_module_vc, lg_detail_tx, lg_stack_tx) VALUES (0, '" . $this->logcode . "', 'NA', '" . $this->detail . "', '" . $this->mextra . "')";
-            if ($zdbh->exec($statement)) {
-                $retval = true;
-            } else {
-                $retval = false;
-            }
+        } elseif ($this->method === 'db') {
             try {
                 $statement = "INSERT INTO x_logs (lg_user_fk, lg_code_vc, lg_module_vc, lg_detail_tx, lg_stack_tx, lg_when_ts) VALUES (0, '" . $this->logcode . "', 'NA', '" . $this->detail . "', '" . $this->mextra . "','" . time() . "')";
                 if ($zdbh->exec($statement) > 0) {
@@ -76,25 +67,26 @@ class debug_logger {
                     $retval = false;
                 }
             } catch (Exception $e) {
-                $temp_log_obj->method = "text";
-                $temp_log_obj->logcode = "012";
-                $temp_log_obj->detail = "Unable to log infomation to the required place (in the database)";
+                $temp_log_obj->method = 'text';
+                $temp_log_obj->logcode = '012';
+                $temp_log_obj->detail = 'Unable to log infomation to the required place (in the database)';
                 $temp_log_obj->mextra = $e;
                 $temp_log_obj->writeLog();
             }
             return true;
         } else {
-            echo $this->logcode . " - " . $this->detail . " - " . $this->mextra;
+            echo $this->logcode . ' - ' . $this->detail . ' - ' . $this->mextra;
         }
-        return;
+        return $retval;
     }
 
     /**
      * Resets debug infomation - be careful to not use before writeLog() as it will clear the log!
      * @author Bobby Allen (ballen@bobbyallen.me)
-     * @return bool 
+     * @return bool
      */
-    function reset() {
+    public function reset()
+    {
         $this->mextra = null;
         $this->detail = null;
         $this->logcode = 0;
@@ -104,9 +96,10 @@ class debug_logger {
     /**
      * Checks if there is infomation in the object to be reported on (If some debug/error message is pending).
      * @author Bobby Allen (ballen@bobbyallen.me)
-     * @return boolean 
+     * @return boolean
      */
-    function hasInfo() {
+    public function hasInfo()
+    {
         if ($this->detail != null)
             return true;
         return false;

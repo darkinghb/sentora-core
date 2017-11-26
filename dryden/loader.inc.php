@@ -1,18 +1,5 @@
 <?php
 
-/**
- * @copyright 2014-2015 Sentora Project (http://www.sentora.org/) 
- * Sentora is a GPL fork of the ZPanel Project whose original header follows:
- *
- * Module loader script for detecting and displaying the correct module using the Dryden framework, this handles the autolaoding of classes.
- * @package zpanelx
- * @subpackage dryden -> core
- * @author Bobby Allen (ballen@bobbyallen.me)
- * @copyright ZPanel Project (http://www.zpanelcp.com/)
- * @link http://www.zpanelcp.com/
- * @license GPL (http://www.gnu.org/licenses/gpl.html)
- */
-global $starttime;
 $mtime = explode(' ', microtime());
 $mtime = $mtime[1] + $mtime[0];
 $starttime = $mtime;

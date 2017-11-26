@@ -1,29 +1,16 @@
 <?php
 
-/**
- * @copyright 2014-2015 Sentora Project (http://www.sentora.org/) 
- * Sentora is a GPL fork of the ZPanel Project whose original header follows:
- *
- * Cross Site Forgery Request protection class.
- * @package zpanelx
- * @subpackage dryden -> runtime
- * @version 1.0.2
- * @author Bobby Allen (ballen@bobbyallen.me)
- * @copyright ZPanel Project (http://www.zpanelcp.com/)
- * @link http://www.zpanelcp.com/
- * @license GPL (http://www.gnu.org/licenses/gpl.html)
- */
-class runtime_csfr {
+class runtime_csfr
+{
 
     /**
      * Builds a 'hidden' form type which is populated with the generated token.
      * @author Bobby Allen (ballen@bobbyallen.me)
      * @return string The HTML form tag.
      */
-    static function Token() {
-        if (!isset($_SESSION['zpcsfr'])) {
-            self::Tokeniser();
-        }
+    public static function Token()
+    {
+        self::Tokeniser();
         $token = $_SESSION['zpcsfr'];
         return "<input type=\"hidden\" name=\"csfr_token\" value=\"" . $token . "\">";
     }
@@ -33,8 +20,11 @@ class runtime_csfr {
      * @author Bobby Allen (ballen@bobbyallen.me)
      * @return bool
      */
-    static function Tokeniser() {
-        $_SESSION['zpcsfr'] = runtime_randomstring::randomHash();
+    public static function Tokeniser()
+    {
+        if (!isset($_SESSION['zpcsfr'])) {
+            $_SESSION['zpcsfr'] = runtime_randomstring::randomHash();
+        }
         return true;
     }
 
@@ -43,12 +33,13 @@ class runtime_csfr {
      * @author Bobby Allen (ballen@bobbyallen.me)
      * @return bool
      */
-    static function Protect() {
+    public static function Protect()
+    {
         if (isset($_POST['csfr_token']) && ($_POST['csfr_token'] == $_SESSION['zpcsfr'])) {
             self::Tokeniser();
             return true;
         }
-        $error_html = "<style type=\"text/css\"><!--
+        $error_html = '<style type="text/css"><!--
             .dbwarning {
                     font-family: Verdana, Geneva, sans-serif;
                     font-size: 14px;
@@ -62,10 +53,8 @@ class runtime_csfr {
                     color: #666;
             }
             </style>
-            <div class=\"dbwarning\"><strong>Application Error:</strong> [0204] - The form you attempted to submit had an invalid token!</p></div>";
+            <div class="dbwarning"><strong>Application Error:</strong> [0204] - The form you attempted to submit had an invalid token!</p></div>';
         die($error_html);
     }
 
 }
-
-?>

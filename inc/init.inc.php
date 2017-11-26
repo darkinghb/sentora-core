@@ -1,6 +1,5 @@
 <?php
 
-global $controller, $zdbh, $zlo;
 $controller = new runtime_controller();
 
 runtime_hook::Execute('OnBoot');
