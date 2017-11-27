@@ -1,19 +1,8 @@
 <?php
 
-/**
- * @copyright 2014-2015 Sentora Project (http://www.sentora.org/) 
- * Sentora is a GPL fork of the ZPanel Project whose original header follows:
- *
- * Generic web services class.
- * @package zpanelx
- * @subpackage dryden -> webservices
- * @version 1.0.0
- * @author Bobby Allen (ballen@bobbyallen.me)
- * @copyright ZPanel Project (http://www.zpanelcp.com/)
- * @link http://www.zpanelcp.com/
- * @license GPL (http://www.gnu.org/licenses/gpl.html)
- */
-class ws_generic {
+
+class ws_generic
+{
 
     /**
      * Provides very basic way of retrieving a result as a string from a given URL (RAW) this does not need to be a 'true' web service.
@@ -21,7 +10,8 @@ class ws_generic {
      * @param string $requestURL The URL to the resource.
      * @return mixed If the request was successful it will return the contents of the requested URL otherwise will return 'false'.
      */
-    static function ReadURLRequestResult($requestURL) {
+    public static function ReadURLRequestResult($requestURL)
+    {
         ob_start();
         @readfile($requestURL);
         $reqcontent = ob_get_contents();
@@ -41,30 +31,20 @@ class ws_generic {
      * @param string $url The URL of which to POST the data too.
      * @param string $data The data content of which to send.
      * @param string $optional_headers Option headers if you require to send them.
-     * @return string The response recieved. 
+     * @return string The response recieved.
      */
-    static function DoPostRequest($url, $data, $optional_headers = null) {
-//$ws_log = new debug_logger();
-//$ws_log->logcode = "904";
+    public static function DoPostRequest($url, $data, $optional_headers = null): string
+    {
         $params = array('http' => array(
-                'method' => 'POST',
-                'content' => $data
-                ));
+            'method' => 'POST',
+            'content' => $data
+        ));
         if ($optional_headers !== null) {
             $params['http']['header'] = $optional_headers;
         }
         $ctx = stream_context_create($params);
         $fp = @fopen($url, 'rb', false, $ctx);
-        if (!$fp) {
-//$ws_log->detail = "Problem with " .$url. ", ".$php_errormsg."";
-//$ws_log->writeLog();
-        }
-        $response = @stream_get_contents($fp);
-        if ($response == false) {
-//$ws_log->detail = "Problem reading data from ".$url. ", ".$php_errormsg."";
-//$ws_log->writeLog();
-        }
-        return $response;
+        return @stream_get_contents($fp);
     }
 
     /**
@@ -72,9 +52,9 @@ class ws_generic {
      * @author Bobby Allen (ballen@bobbyallen.me)
      * @return string The raw request data.
      */
-    static function ProcessRawRequest() {
-        $xml_raw_data = fs_filehandler::ReadFileContents('php://input');
-        return $xml_raw_data;
+    public static function ProcessRawRequest(): string
+    {
+        return fs_filehandler::ReadFileContents('php://input');
     }
 
     /**
@@ -82,9 +62,10 @@ class ws_generic {
      * @author Bobby Allen (ballen@bobbyallen.me)
      * @param string $tagname The name of the tag of which to retrieve the value from.
      * @param string $xml The XML string
-     * @return string The XML tag value. 
+     * @return string The XML tag value.
      */
-    static function GetTagValue($tagname, $xml) {
+    public static function GetTagValue($tagname, $xml): string
+    {
         $matches = array();
         $pattern = "/<$tagname>(.*?)<\/$tagname>/";
         preg_match($pattern, $xml, $matches);
@@ -99,7 +80,8 @@ class ws_generic {
      * @param string $priotiry What should take priority? tag or attributes?
      * @return array Associated array of the XML tag data.
      */
-    static function XMLToArray($contents, $get_attributes = 1, $priority = 'tag') {
+    public static function XMLToArray($contents, $get_attributes = 1, $priority = 'tag'): array
+    {
         if (!function_exists('xml_parser_create')) {
             return array('message' => 'xml_parser_create function does not exist on the server!');
         }
@@ -110,16 +92,13 @@ class ws_generic {
         xml_parse_into_struct($parser, trim($contents), $xml_values);
         xml_parser_free($parser);
         if (!$xml_values)
-            return; //Hmm...
+            return [];
         $xml_array = array();
-        $parents = array();
-        $opened_tags = array();
-        $arr = array();
-        $current = & $xml_array;
+        $current = &$xml_array;
         $repeated_tag_index = array();
         foreach ($xml_values as $data) {
             unset($attributes, $value);
-            extract($data);
+            extract($data, EXTR_OVERWRITE);
             $result = array();
             $attributes_data = array();
             if (isset($value)) {
@@ -139,14 +118,14 @@ class ws_generic {
                 }
             }
             if ($type == "open") {
-                $parent[$level - 1] = & $current;
+                $parent[$level - 1] = &$current;
                 if (!is_array($current) or (!in_array($tag, array_keys($current)))) {
                     $current[$tag] = $result;
                     if ($attributes_data)
                         $current[$tag . '_attr'] = $attributes_data;
                     $repeated_tag_index[$tag . '_' . $level] = 1;
-                    $current = & $current[$tag];
-                }else {
+                    $current = &$current[$tag];
+                } else {
                     if (isset($current[$tag][0])) {
                         $current[$tag][$repeated_tag_index[$tag . '_' . $level]] = $result;
                         $repeated_tag_index[$tag . '_' . $level]++;
@@ -162,7 +141,7 @@ class ws_generic {
                         }
                     }
                     $last_item_index = $repeated_tag_index[$tag . '_' . $level] - 1;
-                    $current = & $current[$tag][$last_item_index];
+                    $current = &$current[$tag][$last_item_index];
                 }
             } elseif ($type == "complete") {
                 if (!isset($current[$tag])) {
@@ -170,7 +149,7 @@ class ws_generic {
                     $repeated_tag_index[$tag . '_' . $level] = 1;
                     if ($priority == 'tag' and $attributes_data)
                         $current[$tag . '_attr'] = $attributes_data;
-                }else {
+                } else {
                     if (isset($current[$tag][0]) and is_array($current[$tag])) {
                         $current[$tag][$repeated_tag_index[$tag . '_' . $level]] = $result;
                         if ($priority == 'tag' and $get_attributes and $attributes_data) {
@@ -196,7 +175,7 @@ class ws_generic {
                     }
                 }
             } elseif ($type == 'close') {
-                $current = & $parent[$level - 1];
+                $current = &$parent[$level - 1];
             }
         }
         return ($xml_array);
@@ -207,7 +186,8 @@ class ws_generic {
      * @param string $content The JSON string of which to decode.
      * @return array Associated array of the JSON tag data.
      */
-    static function JSONToArray($content) {
+    public static function JSONToArray($content): array
+    {
         return json_decode($content, true);
     }
 

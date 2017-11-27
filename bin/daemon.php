@@ -18,7 +18,7 @@
  */
 set_time_limit(0);
 
-$rawPath = str_replace("\\", "/", dirname(__FILE__));
+$rawPath = str_replace("\\", "/", __DIR__);
 $rootPath = str_replace("/bin", "/", $rawPath);
 chdir($rootPath);
 

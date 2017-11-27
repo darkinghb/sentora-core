@@ -51,16 +51,16 @@ class ws_xmws {
      */
     public function RequireUserAuth() {
         $ws_auth = new ctrl_auth;
-        $user = $ws_auth->Authenticate($this->wsdataarray['authuser'], $this->wsdataarray['authpass']);
+        $user = ctrl_auth::Authenticate($this->wsdataarray['authuser'], $this->wsdataarray['authpass']);
         if ($user) {
             $this->authuserid = $user;
             return true;
-        } else {
-            $dataobject = new runtime_dataobject();
-            $dataobject->addItemValue('response', '1105');
-            $dataobject->addItemValue('content', 'User authentication failed');
-            die($this->SendResponse($dataobject->getDataObject()));
         }
+
+        $dataobject = new runtime_dataobject();
+        $dataobject->addItemValue('response', '1105');
+        $dataobject->addItemValue('content', 'User authentication failed');
+        die($this->SendResponse($dataobject->getDataObject()));
     }
 
     /**

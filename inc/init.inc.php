@@ -97,7 +97,7 @@ if (isset($_POST['inConfEmail'])) {
 }
 
 if (isset($_POST['inUsername'])) {
-    if (ctrl_options::GetSystemOption('login_csfr') == 'false')
+    if (ctrl_options::GetSystemOption('login_csfr') === 'false')
         runtime_csfr::Protect();
 
     $rememberdetails = isset($_POST['inRemember']);
@@ -112,7 +112,7 @@ if (isset($_POST['inUsername'])) {
     $crypto->SetSalt($result['ac_passsalt_vc']);
     $secure_password = $crypto->CryptParts($crypto->Crypt())->Hash;
 
-    if (!ctrl_auth::Authenticate($_POST['inUsername'], $secure_password, $rememberdetails, false, $inSessionSecuirty)) {
+    if (!ctrl_auth::Authenticate($_POST['inUsername'], $secure_password, $rememberdetails, $inSessionSecuirty)) {
         header("location: ./?invalidlogin");
         exit();
     }
@@ -120,17 +120,9 @@ if (isset($_POST['inUsername'])) {
 
 if (isset($_COOKIE['zUser'])) {
 
-    if (isset($_COOKIE['zSec'])) {
-        if ($_COOKIE['zSec'] == false) {
-            $secure = false;
-        } else {
-            $secure = true;
-        }
-    } else {
-        $secure = true;
-    }
+    $secure = isset($_COOKIE['zSec']) ? (bool)$_COOKIE['zSec'] : true;
 
-    ctrl_auth::Authenticate($_COOKIE['zUser'], $_COOKIE['zPass'], false, true, $secure);
+    ctrl_auth::Authenticate($_COOKIE['zUser'], $_COOKIE['zPass'], false, $secure);
 }
 
 if (!isset($_SESSION['zpuid'])) {

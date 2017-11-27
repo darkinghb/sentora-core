@@ -195,6 +195,10 @@ function WriteVhostConfigFile()
                 $line .= "# DOMAIN: " . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
                 $line .= "# THIS DOMAIN HAS BEEN DISABLED FOR QUOTA OVERAGE" . fs_filehandler::NewLine();
                 $line .= "<virtualhost " . $vhostIp . ":" . $vhostPort . ">" . fs_filehandler::NewLine();
+                $line .= '<IfModule mod_fastcgi.c>
+                             <FilesMatch ".+\.ph(p[345]?|t|tml)$">
+                                SetHandler php' . $rowvhost['vh_php_handler'] . '-fcgi-www
+                          </FilesMatch>' . fs_filehandler::NewLine() . ' </IfModule>' . fs_filehandler::NewLine();
                 $line .= "ServerName " . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
                 $line .= "ServerAlias www." . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
                 $line .= "ServerAdmin " . $useremail . fs_filehandler::NewLine();
@@ -230,6 +234,10 @@ function WriteVhostConfigFile()
                 $line .= "# DOMAIN: " . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
                 $line .= "# THIS DOMAIN HAS BEEN DISABLED FOR BANDWIDTH OVERAGE" . fs_filehandler::NewLine();
                 $line .= "<virtualhost " . $vhostIp . ":" . $vhostPort . ">" . fs_filehandler::NewLine();
+                $line .= '<IfModule mod_fastcgi.c>
+                             <FilesMatch ".+\.ph(p[345]?|t|tml)$">
+                                SetHandler php' . $rowvhost['vh_php_handler'] . '-fcgi-www
+                          </FilesMatch>' . fs_filehandler::NewLine() . ' </IfModule>' . fs_filehandler::NewLine();
                 $line .= "ServerName " . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
                 $line .= "ServerAlias www." . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
                 $line .= "ServerAdmin " . $useremail . fs_filehandler::NewLine();
@@ -267,7 +275,7 @@ function WriteVhostConfigFile()
                 $line .= '<IfModule mod_fastcgi.c>
                              <FilesMatch ".+\.ph(p[345]?|t|tml)$">
                                 SetHandler php' . $rowvhost['vh_php_handler'] . '-fcgi-www
-                          </FilesMatch></IfModule>';
+                          </FilesMatch>'.  fs_filehandler::NewLine() . '</IfModule>' . fs_filehandler::NewLine();
                 $line .= "ServerName " . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
                 $line .= "ServerAlias www." . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
                 $line .= "ServerAdmin " . $useremail . fs_filehandler::NewLine();
@@ -308,7 +316,7 @@ function WriteVhostConfigFile()
                 $line .= '<IfModule mod_fastcgi.c>
                              <FilesMatch ".+\.ph(p[345]?|t|tml)$">
                                 SetHandler php' . $rowvhost['vh_php_handler'] . '-fcgi-www
-                          </FilesMatch></IfModule>';
+                          </FilesMatch>'.  fs_filehandler::NewLine() . '</IfModule>' . fs_filehandler::NewLine();
                 /*
                  * todo
                  */
@@ -420,6 +428,10 @@ function WriteVhostConfigFile()
             $line .= "# DOMAIN: " . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
             $line .= "# THIS DOMAIN HAS BEEN DISABLED" . fs_filehandler::NewLine();
             $line .= "<virtualhost " . $vhostIp . ":" . $vhostPort . ">" . fs_filehandler::NewLine();
+            $line .= '<IfModule mod_fastcgi.c>
+                             <FilesMatch ".+\.ph(p[345]?|t|tml)$">
+                                SetHandler php' . $rowvhost['vh_php_handler'] . '-fcgi-www
+                          </FilesMatch>' . fs_filehandler::NewLine() . ' </IfModule>' . fs_filehandler::NewLine();
             $line .= "ServerName " . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
             $line .= "ServerAlias www." . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
             $line .= "ServerAdmin " . $useremail . fs_filehandler::NewLine();
@@ -489,9 +501,9 @@ function CheckErrorDocument($error)
         509, 510);
     if (in_array($error, $errordocs)) {
         return true;
-    } else {
-        return false;
     }
+
+    return false;
 }
 
 function BackupVhostConfigFile()
