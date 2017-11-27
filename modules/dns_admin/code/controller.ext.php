@@ -267,7 +267,7 @@ class module_controller extends ctrl_module
     {
         global $zdbh;
         global $controller;
-        $sql = "SELECT COUNT(*) FROM x_settings WHERE so_module_vc=:moduleName AND so_usereditable_en = 'true'";
+        $sql = "SELECT COUNT(so_id_pk) FROM x_settings WHERE so_module_vc=:moduleName AND so_usereditable_en = 'true'";
         $numrows = $zdbh->prepare($sql);
         $GetModuleName = ui_module::GetModuleName();
         $numrows->bindParam(':moduleName', $GetModuleName);
@@ -295,7 +295,6 @@ class module_controller extends ctrl_module
 
     static function doUpdateService()
     {
-        global $zdbh;
         global $controller;
         if (!fs_director::CheckForEmptyValue($controller->GetControllerRequest('FORM', 'inStartService'))) {
             self::StartBind();

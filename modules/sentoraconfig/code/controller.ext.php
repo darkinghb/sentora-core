@@ -32,7 +32,7 @@ class module_controller extends ctrl_module
     static function getConfig()
     {
         global $zdbh;
-        $currentuser = ctrl_users::GetUserDetail();
+//        $currentuser = ctrl_users::GetUserDetail();
         $sql = "SELECT * FROM x_settings WHERE so_module_vc=:module AND so_usereditable_en = 'true' ORDER BY so_cleanname_vc";
         $module = ui_module::GetModuleName();
         $numrows = $zdbh->prepare($sql);
@@ -52,16 +52,16 @@ class module_controller extends ctrl_module
                 if (strpos(ctrl_options::OutputSettingTextArea($rowsettings['so_name_vc']),'smtp_password') !== false) {
                     $fieldhtml = '<input type="password" name="smtp_password" value="'.$rowsettings['so_value_tx'].'">';
                 }
-                array_push($res, array('cleanname' => ui_language::translate($rowsettings['so_cleanname_vc']),
+                $res[] = array('cleanname' => ui_language::translate($rowsettings['so_cleanname_vc']),
                     'name' => $rowsettings['so_name_vc'],
                     'description' => ui_language::translate($rowsettings['so_desc_tx']),
                     'value' => $rowsettings['so_value_tx'],
-                    'fieldhtml' => $fieldhtml));
+                    'fieldhtml' => $fieldhtml);
             }
             return $res;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     static function getLastRunTime()

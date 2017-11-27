@@ -38,7 +38,7 @@ class ctrl_users {
           ");
         $rows->bindParam(':uid', $uid);
         $rows->execute();
-        $dbvals = $rows->fetch();
+        $dbvals = $rows->fetch(2);
         $userdetail->addItemValue('username', $dbvals['ac_user_vc']);
         $userdetail->addItemValue('userid', $dbvals['ac_id_pk']);
         $userdetail->addItemValue('password', $dbvals['ac_pass_vc']);

@@ -64,12 +64,12 @@ function WriteDNSZoneRecordsHook()
         }
         $zone_file = (ctrl_options::GetSystemOption('zone_dir')) . $DomainName . ".txt";
         $line = "$" . "TTL 10800" . fs_filehandler::NewLine();
-        $line .= "@ IN SOA ns1." . $DomainName . ".    postmaster." . $DomainName . ". (" . fs_filehandler::NewLine();
-        $line .= "    " . $SoaSerial . "  ;serial" . fs_filehandler::NewLine();
-        $line .= "    " . ctrl_options::GetSystemOption('refresh_ttl') . "    ;refresh after 6 hours" . fs_filehandler::NewLine();
-        $line .= "    " . ctrl_options::GetSystemOption('retry_ttl') . "    ;retry after 1 hour" . fs_filehandler::NewLine();
-        $line .= "    " . ctrl_options::GetSystemOption('expire_ttl') . "   ;expire after 1 week" . fs_filehandler::NewLine();
-        $line .= "    " . ctrl_options::GetSystemOption('minimum_ttl') . " )    ;minimum TTL of 1 day" . fs_filehandler::NewLine();
+        $line .= '@ IN SOA ns1.' . $DomainName . ".    postmaster." . $DomainName . ". (" . fs_filehandler::NewLine();
+        $line .= '    ' . $SoaSerial . "  ;serial" . fs_filehandler::NewLine();
+        $line .= '    ' . ctrl_options::GetSystemOption('refresh_ttl') . "    ;refresh after 6 hours" . fs_filehandler::NewLine();
+        $line .= '    ' . ctrl_options::GetSystemOption('retry_ttl') . "    ;retry after 1 hour" . fs_filehandler::NewLine();
+        $line .= '    ' . ctrl_options::GetSystemOption('expire_ttl') . "   ;expire after 1 week" . fs_filehandler::NewLine();
+        $line .= '    ' . ctrl_options::GetSystemOption('minimum_ttl') . " )    ;minimum TTL of 1 day" . fs_filehandler::NewLine();
 
         $sql = $zdbh->prepare('SELECT * FROM x_dns WHERE dn_vhost_fk=:dnsrecord AND dn_deleted_ts IS NULL ORDER BY dn_type_vc');
         $sql->bindParam(':dnsrecord', $domain_id);

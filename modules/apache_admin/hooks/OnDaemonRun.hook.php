@@ -38,7 +38,7 @@ function BuildVhostPortForward($vhostName, $customPort, $userEmail)
     $line .= "ServerAdmin " . $userEmail . fs_filehandler::NewLine();
     $line .= "RewriteEngine on" . fs_filehandler::NewLine();
     $line .= "ReWriteCond %{SERVER_PORT} !^" . $customPort . "$" . fs_filehandler::NewLine();
-    $line .= ( $customPort === "443" ) ? "RewriteRule ^/(.*) https://%{HTTP_HOST}/$1 [NC,R,L] " . fs_filehandler::NewLine() : "RewriteRule ^/(.*) http://%{HTTP_HOST}:" . $customPort . "/$1 [NC,R,L] " . fs_filehandler::NewLine();
+    $line .= ($customPort === "443") ? "RewriteRule ^/(.*) https://%{HTTP_HOST}/$1 [NC,R,L] " . fs_filehandler::NewLine() : "RewriteRule ^/(.*) http://%{HTTP_HOST}:" . $customPort . "/$1 [NC,R,L] " . fs_filehandler::NewLine();
     $line .= "</virtualhost>" . fs_filehandler::NewLine();
     $line .= "# END DOMAIN: " . $vhostName . fs_filehandler::NewLine() . fs_filehandler::NewLine();
 
@@ -50,8 +50,8 @@ function WriteVhostConfigFile()
     global $zdbh;
 
     //Get email for server admin of Sentora
-    $getserveremail = $zdbh->query("SELECT ac_email_vc FROM x_accounts where ac_id_pk=1")->fetch();
-    $serveremail = ( $getserveremail['ac_email_vc'] != "" ) ? $getserveremail['ac_email_vc'] : "postmaster@" . ctrl_options::GetSystemOption('sentora_domain');
+    $getserveremail = $zdbh->query("SELECT ac_email_vc FROM x_accounts WHERE ac_id_pk=1")->fetch();
+    $serveremail = ($getserveremail['ac_email_vc'] != "") ? $getserveremail['ac_email_vc'] : "postmaster@" . ctrl_options::GetSystemOption('sentora_domain');
 
     $VHostDefaultPort = ctrl_options::GetSystemOption('apache_port');
     $customPorts = array(ctrl_options::GetSystemOption('sentora_port'));
@@ -82,7 +82,7 @@ function WriteVhostConfigFile()
     $line .= fs_filehandler::NewLine();
 
     # NameVirtualHost is still needed for Apache 2.2 but must be removed for apache 2.3
-    if ((double) sys_versions::ShowApacheVersion() < 2.3) {
+    if ((double)sys_versions::ShowApacheVersion() < 2.3) {
         foreach ($customPortList as $port) {
             $line .= "NameVirtualHost *:" . $port . fs_filehandler::NewLine();
         }
@@ -103,27 +103,27 @@ function WriteVhostConfigFile()
     $line .= 'CustomLog "' . ctrl_options::GetSystemOption('log_dir') . 'sentora-access.log" ' . ctrl_options::GetSystemOption('access_log_format') . fs_filehandler::NewLine();
     $line .= 'CustomLog "' . ctrl_options::GetSystemOption('log_dir') . 'sentora-bandwidth.log" ' . ctrl_options::GetSystemOption('bandwidth_log_format') . fs_filehandler::NewLine();
     $line .= "AddType application/x-httpd-php .php" . fs_filehandler::NewLine();
-	// Error documents:- Error pages are added automatically if they are found in the /etc/static/errorpages
-	// directory and if they are a valid error code, and saved in the proper format, i.e. <error_number>.html
-	$errorpages = ctrl_options::GetSystemOption('sentora_root') . "/etc/static/errorpages";
-	if (is_dir($errorpages)) {
-		if ($handle = opendir($errorpages)) {
-			while (($file = readdir($handle)) !== false) {
-				if ($file != "." && $file != "..") {
-					$page = explode(".", $file);
-					if (!fs_director::CheckForEmptyValue(CheckErrorDocument($page[0]))) {
-						$line .= "ErrorDocument " . $page[0] . " /etc/static/errorpages/" . $page[0] . ".html" . fs_filehandler::NewLine();
-					}
-				}
-			}
-			closedir($handle);
-		}
-	}
+    // Error documents:- Error pages are added automatically if they are found in the /etc/static/errorpages
+    // directory and if they are a valid error code, and saved in the proper format, i.e. <error_number>.html
+    $errorpages = ctrl_options::GetSystemOption('sentora_root') . "/etc/static/errorpages";
+    if (is_dir($errorpages)) {
+        if ($handle = opendir($errorpages)) {
+            while (($file = readdir($handle)) !== false) {
+                if ($file != "." && $file != "..") {
+                    $page = explode(".", $file);
+                    if (!fs_director::CheckForEmptyValue(CheckErrorDocument($page[0]))) {
+                        $line .= "ErrorDocument " . $page[0] . " /etc/static/errorpages/" . $page[0] . ".html" . fs_filehandler::NewLine();
+                    }
+                }
+            }
+            closedir($handle);
+        }
+    }
     $line .= '<Directory "' . ctrl_options::GetSystemOption('sentora_root') . '">' . fs_filehandler::NewLine();
     $line .= "Options +FollowSymLinks -Indexes" . fs_filehandler::NewLine();
     $line .= "    AllowOverride All" . fs_filehandler::NewLine();
 
-    if ((double) sys_versions::ShowApacheVersion() < 2.4) {
+    if ((double)sys_versions::ShowApacheVersion() < 2.4) {
         $line .= "    Require all granted" . fs_filehandler::NewLine();
     } else {
         $line .= "    Require all granted" . fs_filehandler::NewLine();
@@ -155,7 +155,7 @@ function WriteVhostConfigFile()
     // Sentora virtual host container configuration
     $sql = $zdbh->prepare("SELECT * FROM x_vhosts WHERE vh_deleted_ts IS NULL");
     $sql->execute();
-    while ($rowvhost = $sql->fetch()) {
+    while ($rowvhost = $sql->fetch(2)) {
 
         // Grab some variables we will use for later...
         $vhostuser = ctrl_users::GetUserDetail($rowvhost['vh_acc_fk']);
@@ -167,14 +167,14 @@ function WriteVhostConfigFile()
         $vsql->execute();
 
         // Add a default email if no email found for client.
-        $useremail = ( fs_director::CheckForEmptyValue($vhostuser['email']) ) ? "postmaster@" . $rowvhost['vh_name_vc'] : $vhostuser['email'];
+        $useremail = (fs_director::CheckForEmptyValue($vhostuser['email'])) ? "postmaster@" . $rowvhost['vh_name_vc'] : $vhostuser['email'];
 
         // Check if domain or subdomain to see if we add an alias with 'www'
-        $serveralias = ( $rowvhost['vh_type_in'] == 2 ) ? '' : " www." . $rowvhost['vh_name_vc'];
+        $serveralias = ($rowvhost['vh_type_in'] == 2) ? '' : " www." . $rowvhost['vh_name_vc'];
 
-        $vhostPort = ( fs_director::CheckForEmptyValue($rowvhost['vh_custom_port_in']) ) ? $VHostDefaultPort : $rowvhost['vh_custom_port_in'];
+        $vhostPort = (fs_director::CheckForEmptyValue($rowvhost['vh_custom_port_in'])) ? $VHostDefaultPort : $rowvhost['vh_custom_port_in'];
 
-        $vhostIp = ( fs_director::CheckForEmptyValue($rowvhost['vh_custom_ip_vc']) ) ? "*" : $rowvhost['vh_custom_ip_vc'];
+        $vhostIp = (fs_director::CheckForEmptyValue($rowvhost['vh_custom_ip_vc'])) ? "*" : $rowvhost['vh_custom_ip_vc'];
 
         //Domain is enabled
         //Line1: Domain enabled & Client also is enabled.
@@ -206,9 +206,9 @@ function WriteVhostConfigFile()
                 $line .= "</Directory>" . fs_filehandler::NewLine();
                 $line .= ctrl_options::GetSystemOption('php_handler') . fs_filehandler::NewLine();
                 $line .= ctrl_options::GetSystemOption('dir_index') . fs_filehandler::NewLine();
-				// Client custom vh entry
-				$line .= "# Custom VH settings (if any exist)" . fs_filehandler::NewLine();
-				$line .= $rowvhost['vh_custom_tx'] . fs_filehandler::NewLine();
+                // Client custom vh entry
+                $line .= "# Custom VH settings (if any exist)" . fs_filehandler::NewLine();
+                $line .= $rowvhost['vh_custom_tx'] . fs_filehandler::NewLine();
                 $line .= "</virtualhost>" . fs_filehandler::NewLine();
                 $line .= "# END DOMAIN: " . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
                 $line .= "################################################################" . fs_filehandler::NewLine();
@@ -226,7 +226,7 @@ function WriteVhostConfigFile()
                  */
 
                 //Domain is beyond its quota
-            } elseif ($vhostuser['bandwidthquota'] != 0 && $bandwidth > $vhostuser['bandwidthquota']) {
+            } else if ($vhostuser['bandwidthquota'] != 0 && $bandwidth > $vhostuser['bandwidthquota']) {
                 $line .= "# DOMAIN: " . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
                 $line .= "# THIS DOMAIN HAS BEEN DISABLED FOR BANDWIDTH OVERAGE" . fs_filehandler::NewLine();
                 $line .= "<virtualhost " . $vhostIp . ":" . $vhostPort . ">" . fs_filehandler::NewLine();
@@ -241,9 +241,9 @@ function WriteVhostConfigFile()
                 $line .= "</Directory>" . fs_filehandler::NewLine();
                 $line .= ctrl_options::GetSystemOption('php_handler') . fs_filehandler::NewLine();
                 $line .= ctrl_options::GetSystemOption('dir_index') . fs_filehandler::NewLine();
-				// Client custom vh entry
-				$line .= "# Custom VH settings (if any exist)" . fs_filehandler::NewLine();
-				$line .= $rowvhost['vh_custom_tx'] . fs_filehandler::NewLine();
+                // Client custom vh entry
+                $line .= "# Custom VH settings (if any exist)" . fs_filehandler::NewLine();
+                $line .= $rowvhost['vh_custom_tx'] . fs_filehandler::NewLine();
                 $line .= "</virtualhost>" . fs_filehandler::NewLine();
                 $line .= "# END DOMAIN: " . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
                 $line .= "################################################################" . fs_filehandler::NewLine();
@@ -264,6 +264,10 @@ function WriteVhostConfigFile()
             } elseif ($rowvhost['vh_type_in'] == 3) {
                 $line .= "# DOMAIN: " . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
                 $line .= "<virtualhost " . $vhostIp . ":" . $vhostPort . ">" . fs_filehandler::NewLine();
+                $line .= '<IfModule mod_fastcgi.c>
+                             <FilesMatch ".+\.ph(p[345]?|t|tml)$">
+                                SetHandler php' . $rowvhost['vh_php_handler'] . '-fcgi-www
+                          </FilesMatch></IfModule>';
                 $line .= "ServerName " . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
                 $line .= "ServerAlias www." . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
                 $line .= "ServerAdmin " . $useremail . fs_filehandler::NewLine();
@@ -301,7 +305,10 @@ function WriteVhostConfigFile()
 
                 $line .= "# DOMAIN: " . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
                 $line .= "<virtualhost " . $vhostIp . ":" . $vhostPort . ">" . fs_filehandler::NewLine();
-
+                $line .= '<IfModule mod_fastcgi.c>
+                             <FilesMatch ".+\.ph(p[345]?|t|tml)$">
+                                SetHandler php' . $rowvhost['vh_php_handler'] . '-fcgi-www
+                          </FilesMatch></IfModule>';
                 /*
                  * todo
                  */
@@ -318,10 +325,10 @@ function WriteVhostConfigFile()
                 // Get Package openbasedir and suhosin enabled options
                 if (ctrl_options::GetSystemOption('use_openbase') == "true") {
                     if ($rowvhost['vh_obasedir_in'] <> 0) {
-                        $line .= 'php_admin_value open_basedir "' 
-                              . ctrl_options::GetSystemOption('hosted_dir') . $vhostuser['username'] . "/public_html" 
-                              . $rowvhost['vh_directory_vc'] . '/' . ctrl_options::GetSystemOption('openbase_seperator') 
-                              . ctrl_options::GetSystemOption('openbase_temp') . '"' . fs_filehandler::NewLine();
+                        $line .= 'php_admin_value open_basedir "'
+                            . ctrl_options::GetSystemOption('hosted_dir') . $vhostuser['username'] . "/public_html"
+                            . $rowvhost['vh_directory_vc'] . '/' . ctrl_options::GetSystemOption('openbase_seperator')
+                            . ctrl_options::GetSystemOption('openbase_temp') . '"' . fs_filehandler::NewLine();
                     }
                 }
                 if (ctrl_options::GetSystemOption('use_suhosin') == "true") {
@@ -345,7 +352,7 @@ function WriteVhostConfigFile()
                 $line .= "</Directory>" . fs_filehandler::NewLine();
 
                 // Enable Gzip until we set this as an option , we might commenbt this too and allow manual switch
-				$line .= "AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript" . fs_filehandler::NewLine();
+                $line .= "AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript" . fs_filehandler::NewLine();
                 // Get Package php and cgi enabled options
                 $rows = $zdbh->prepare("SELECT * FROM x_packages WHERE pk_id_pk=:packageid AND pk_deleted_ts IS NULL");
                 $rows->bindParam(':packageid', $vhostuser['packageid']);
@@ -423,9 +430,9 @@ function WriteVhostConfigFile()
             $line .= "  Require all granted" . fs_filehandler::NewLine();
             $line .= "</Directory>" . fs_filehandler::NewLine();
             $line .= ctrl_options::GetSystemOption('dir_index') . fs_filehandler::NewLine();
-			// Client custom vh entry
-			$line .= "# Custom VH settings (if any exist)" . fs_filehandler::NewLine();
-			$line .= $rowvhost['vh_custom_tx'] . fs_filehandler::NewLine();
+            // Client custom vh entry
+            $line .= "# Custom VH settings (if any exist)" . fs_filehandler::NewLine();
+            $line .= $rowvhost['vh_custom_tx'] . fs_filehandler::NewLine();
             $line .= "</virtualhost>" . fs_filehandler::NewLine();
             $line .= "# END DOMAIN: " . $rowvhost['vh_name_vc'] . fs_filehandler::NewLine();
             $line .= "################################################################" . fs_filehandler::NewLine();
@@ -466,7 +473,7 @@ function WriteVhostConfigFile()
             $returnValue = ctrl_system::systemCommand($command, $args);
         }
 
-        echo "Apache reload " . ((0 === $returnValue ) ? "succeeded" : "failed") . "." . fs_filehandler::NewLine();
+        echo "Apache reload " . ((0 === $returnValue) ? "succeeded" : "failed") . "." . fs_filehandler::NewLine();
     } else {
         return false;
     }
@@ -544,7 +551,7 @@ function TriggerApacheQuotaUsage()
                 echo "Disk usage over quota, triggering Apache..." . fs_filehandler::NewLine();
                 $updateapache = $zdbh->prepare("UPDATE x_settings SET so_value_tx = 'true' WHERE so_name_vc ='apache_changed'");
                 $updateapache->execute();
-				
+
                 $updateapache2 = $zdbh->prepare("UPDATE x_bandwidth SET bd_diskcheck_in = 1 WHERE bd_acc_fk = :acc");
                 $updateapache2->bindParam(':acc', $rowvhost['vh_acc_fk']);
                 $updateapache2->execute();

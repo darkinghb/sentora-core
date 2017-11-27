@@ -140,5 +140,5 @@ if (!isset($_SESSION['zpuid'])) {
 
 runtime_hook::Execute('OnBeforeControllerInit');
 $controller->Init();
-ui_templateparser::Generate("etc/styles/" . ui_template::GetUserTemplate());
-?>
+ui_templateparser::Generate('etc/styles/' . ui_template::GetUserTemplate());
+

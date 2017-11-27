@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright 2014-2015 Sentora Project (http://www.sentora.org/) 
+ * @copyright 2014-2015 Sentora Project (http://www.sentora.org/)
  * Sentora is a GPL fork of the ZPanel Project whose original header follows:
  *
  * Database access class, enables PDO database access.
@@ -115,7 +115,8 @@ class db_driver extends PDO {
         return $res2 . $stack2 . "}";
     }
 
-    public function query($query) {
+    public function query($query): ?\PDOStatement
+    {
         try {
             $result = parent::query($query);
             return($result);
@@ -133,8 +134,7 @@ class db_driver extends PDO {
 
     public function exec($query) {
         try {
-            $result = parent::exec($query);
-            return($result);
+           return parent::exec($query);
         } catch (PDOException $e) {
             $errormessage = $this->errorInfo();
             $clean = $this->cleanexpmessage($e);
@@ -168,8 +168,8 @@ class db_driver extends PDO {
         return $sqlPrepare;
     }
 
-
-    public function prepare($query, $driver_options = array()) {
+    public function prepare($query, $driver_options = array()): ?\PDOStatement
+    {
         try {
             $result = parent::prepare($query, $driver_options);
             $this->queriesExecuted[] = $query;

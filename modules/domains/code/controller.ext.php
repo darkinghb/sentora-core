@@ -64,13 +64,13 @@ class module_controller extends ctrl_module
             $res = array();
             $sql->execute();
             while ($rowdomains = $sql->fetch()) {
-                array_push($res, array(
+                $res[] = array(
                     'uid' => $rowdomains['vh_acc_fk'],
                     'name' => $rowdomains['vh_name_vc'],
                     'directory' => $rowdomains['vh_directory_vc'],
                     'active' => $rowdomains['vh_active_in'],
                     'id' => $rowdomains['vh_id_pk'],
-                ));
+                );
             }
             return $res;
         } else {
@@ -158,7 +158,7 @@ class module_controller extends ctrl_module
                 fs_filehandler::CopyFileSafe(ctrl_options::GetSystemOption('static_dir') . "pages/welcome.html", $vhost_path . "/index.html");
             }
             // If all has gone well we need to now create the domain in the database...
-            $sql = $zdbh->prepare("INSERT INTO x_vhosts (vh_acc_fk,
+            $sql = $zdbh->prepare('INSERT INTO x_vhosts (vh_acc_fk,
 														 vh_name_vc,
 														 vh_directory_vc,
 														 vh_type_in,
@@ -167,7 +167,7 @@ class module_controller extends ctrl_module
 														 :domain,
 														 :destination,
 														 1,
-														 :time)"); //CLEANER FUNCTION ON $domain and $homedirectory_to_use (Think I got it?)
+														 :time)'); //CLEANER FUNCTION ON $domain and $homedirectory_to_use (Think I got it?)
             $time = time();
             $sql->bindParam(':time', $time);
             $sql->bindParam(':userid', $currentuser['userid']);
