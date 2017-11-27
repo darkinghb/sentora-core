@@ -16,18 +16,32 @@
 class ctrl_auth
 {
 
-    public static function RequireUser(): bool
+    /**
+     * Checks that the server has a valid session for the user if not it will redirect to the login screen.
+     * @author Bobby Allen (ballen@bobbyallen.me)
+     * @global db_driver $zdbh The ZPX database handle.
+     * return bool
+     */
+    public static function RequireUser()
     {
+        global $zdbh;
         if (!isset($_SESSION['zpuid'])) {
             if (isset($_COOKIE['zUser'])) {
-                $secure = isset($_COOKIE['zSec']) && (bool)$_COOKIE['zSec'];
-                self::Authenticate($_COOKIE['zUser'], $_COOKIE['zPass'], false, $secure);
+                if (isset($_COOKIE['zSec'])) {
+                    if ($_COOKIE['zSec'] == false) {
+                        $secure = false;
+                    } else {
+                        $secure = true;
+                    }
+                } else {
+                    $secure = true;
+                }
+                self::Authenticate($_COOKIE['zUser'], $_COOKIE['zPass'], false, true, $secure);
             }
-            global $zdbh;
             runtime_hook::Execute('OnRequireUserLogin');
-            $sqlQuery = 'SELECT ac_usertheme_vc, ac_usercss_vc FROM
+            $sqlQuery = "SELECT ac_usertheme_vc, ac_usercss_vc FROM
                          x_accounts WHERE
-                         ac_user_vc = :zadmin';
+                         ac_user_vc = :zadmin";
             $bindArray = array(':zadmin' => 'zadmin');
             $zdbh->bindQuery($sqlQuery, $bindArray);
             $themeRow = $zdbh->returnRow();
@@ -40,14 +54,12 @@ class ctrl_auth
     /**
      * The main authentication mechanism, checks username and password against the database and logs the user in on a successful authenitcation request.
      * @author Bobby Allen (ballen@bobbyallen.me)
+     * @global db_driver $zdbh The ZPX database handle.
      * @param string $username The username to use to authenticate with.
      * @param string $password The password to use to authenticate with.
      * @param bool $rememberMe Remember the password for 30 days? (true/false)
-     * @param bool $sessionSecurity
+     * @param bool $checkingcookie The authentication request has come from a set cookie.
      * @return mixed Returns 'false' if the authentication fails otherwise will return the user ID.
-     * @internal param bool $isCookie
-     * @global db_driver $zdbh The ZPX database handle.
-     * @internal param bool $checkingcookie The authentication request has come from a set cookie.
      */
     public static function Authenticate($username, $password, $rememberMe = false, $sessionSecurity = false)
     {
@@ -71,7 +83,7 @@ class ctrl_auth
             //runtime_sessionsecurity::sessionRegen();
 
             self::SetUserSession($row['ac_id_pk'], $sessionSecurity);
-            $zdbh->exec('UPDATE x_accounts SET ac_lastlogon_ts=' . time() . ' WHERE ac_id_pk=' . $row['ac_id_pk']);
+            $zdbh->exec("UPDATE x_accounts SET ac_lastlogon_ts=" . time() . " WHERE ac_id_pk=" . $row['ac_id_pk']);
             if ($rememberMe) {
                 setcookie("zUser", $username, time() + 60 * 60 * 24 * 30, "/");
                 setcookie("zPass", $password, time() + 60 * 60 * 24 * 30, "/");
@@ -89,20 +101,23 @@ class ctrl_auth
     /**
      * Sets a user session ID.
      * @author Bobby Allen (ballen@bobbyallen.me)
-     * @param int $user The Sentora user account ID to set the session as.
-     * @param bool $sessionSecurity session security enabled
+     * @param int $zpuid The Sentora user account ID to set the session as.
      * @return bool
      */
-    public static function SetUserSession(int $user = 0, bool $sessionSecurity = true): bool
+    public static function SetUserSession($zpuid = 0, $sessionSecuirty = true)
     {
-        if ($user > 0) {
-            $_SESSION['zpuid'] = $user;
+        if (isset($zpuid)) {
+            $_SESSION['zpuid'] = $zpuid;
+            //Implamentation of session security
             runtime_sessionsecurity::setCookie();
             runtime_sessionsecurity::setUserIP();
             runtime_sessionsecurity::setUserAgent();
-            runtime_sessionsecurity::setSessionSecurityEnabled($sessionSecurity);
+            runtime_sessionsecurity::setSessionSecurityEnabled($sessionSecuirty);
+
+
             return true;
         }
+
         return false;
     }
 
@@ -113,7 +128,7 @@ class ctrl_auth
      * @param string $value The value of the session variable to set.
      * @return boolean
      */
-    public static function SetSession($name, $value = ""): bool
+    public static function SetSession($name, $value = "")
     {
         if (isset($name)) {
             $_SESSION['' . $name . ''] = $value;
@@ -128,7 +143,7 @@ class ctrl_auth
      * @author Bobby Allen (ballen@bobbyallen.me)
      * @return bool
      */
-    public static function KillSession(): bool
+    public static function KillSession()
     {
         runtime_hook::Execute('OnUserLogout');
         $_SESSION['zpuid'] = null;
@@ -144,20 +159,23 @@ class ctrl_auth
      * @author Bobby Allen (ballen@bobbyallen.me)
      * @return bool
      */
-    public static function KillCookies(): bool
+    public static function KillCookies()
     {
         setcookie("zUser", '', time() - 3600, "/");
         setcookie("zPass", '', time() - 3600, "/");
-        unset($_COOKIE['zUser'], $_COOKIE['zPass'], $_COOKIE['zSec']);
+        unset($_COOKIE['zUser']);
+        unset($_COOKIE['zPass']);
+        unset($_COOKIE['zSec']);
         return true;
     }
 
     /**
      * Returns the UID (User ID) of the current logged in user.
      * @author Bobby Allen (ballen@bobbyallen.me)
+     * @global obj $controller The Sentora controller object.
      * @return int The current user's session ID.
      */
-    public static function CurrentUserID(): int
+    public static function CurrentUserID()
     {
         global $controller;
         return $controller->GetControllerRequest('USER', 'zpuid');

@@ -18,28 +18,28 @@ class ws_xmws {
     /**
      * @var string Used to store the current RAW XML request data.
      */
-    var $wsdata;
+    public $wsdata;
 
     /**
      * @var string Used to store the array of request variables.
      */
-    var $wsdataarray;
+    public $wsdataarray;
 
     /**
      * @var obj Current module controller
      */
-    var $currentmodule;
+    public $currentmodule;
 
     /**
      * @var int Authenticated User ID
      */
-    var $authuserid;
+    public $authuserid;
 
     /**
      * Constructs the object setting the web service request data to a class variable.
      * @author Bobby Allen (ballen@bobbyallen.me)
      */
-    function __construct() {
+    public function __construct() {
         $this->wsdata = ws_generic::ProcessRawRequest();
         $this->wsdataarray = $this->RawXMWSToArray($this->wsdata);
         $this->currentmodule = new module_controller;
@@ -50,7 +50,6 @@ class ws_xmws {
      * @author Bobby Allen (ballen@bobbyallen.me) 
      */
     public function RequireUserAuth() {
-        $ws_auth = new ctrl_auth;
         $user = ctrl_auth::Authenticate($this->wsdataarray['authuser'], $this->wsdataarray['authpass']);
         if ($user) {
             $this->authuserid = $user;
@@ -72,10 +71,10 @@ class ws_xmws {
         if ($this->wsdataarray['apikey'] != ctrl_options::GetSystemOption('apikey')) {
             runtime_hook::Execute('OnBadAPIKeyAuth');
             return false;
-        } else {
-            runtime_hook::Execute('OnGoodAPIKeyAuth');
-            return true;
         }
+
+        runtime_hook::Execute('OnGoodAPIKeyAuth');
+        return true;
     }
 
     /**
@@ -119,7 +118,7 @@ class ws_xmws {
      * @param array $tags An associated array of the tag names and values to be added.
      * @return string A formatted XML section block which can then be used in the <content> tag if required.
      */
-    static function NewXMLContentSection($name, $tags) {
+    public static function NewXMLContentSection($name, $tags) {
         $xml = "\t<" . $name . ">\n";
         foreach ($tags as $tagname => $tagval) {
             $xml .="\t\t<" . $tagname . ">" . $tagval . "</" . $tagname . ">\n";
@@ -135,9 +134,8 @@ class ws_xmws {
      * @param string $value The value of the <tag>.
      * @return string A formatted (single tab indented) XML line designed to be used in the <content> tag.
      */
-    static function NewXMLTag($name, $value) {
-        $xml = "\t<" . $name . ">" . $value . "</" . $name . ">\n";
-        return $xml;
+    public static function NewXMLTag($name, $value) {
+        return "\t<" . $name . ">" . $value . "</" . $name . ">\n";
     }
 
     /**
@@ -148,7 +146,7 @@ class ws_xmws {
      * @param string $priotiry What should take priority? tag or attributes?
      * @return array Associated array of the XML tag data.
      */
-    function XMLDataToArray($contents, $get_attributes = 1, $priority = 'tag') {
+    public function XMLDataToArray($contents, $get_attributes = 1, $priority = 'tag') {
         return ws_generic::XMLToArray($contents, $get_attributes, $priority);
     }
 

@@ -22,7 +22,7 @@ class runtime_sessionsecurity
      * @author Sam Mottley (smottley@zpanelcp.com)
      * @return boolean.
      */
-    public static function sessionRegen(): bool
+    public static function sessionRegen()
     {
         if (session_regenerate_id()) {
             return true;
@@ -32,33 +32,11 @@ class runtime_sessionsecurity
     }
 
     /**
-     * This function will set the users agent in a secure session and hashes
-     * @author Sam Mottley (smottley@zpanelcp.com)
-     * @return boolean.
-     */
-    public static function setUserAgent(): void
-    {
-        $_SESSION['HTTP_USER_AGENT'] = sha1($_SERVER['HTTP_USER_AGENT'], self::userSpeficData());
-    }
-
-    /**
-     * Get users details that are spefic for the individual user only
-     * @author Sam Mottley (smottley@zpanelcp.com)
-     * @return string The data.
-     */
-    public static function userSpeficData(): string
-    {
-        $ip = self::findIP();
-        $username = $_SESSION['zpuid'];
-        return $ip . $username;
-    }
-
-    /**
      * Get users ip address
      * @author Sam Mottley (smottley@zpanelcp.com)
      * @return string The Clean IP.
      */
-    public static function findIP(): string
+    public static function findIP()
     {
         $ip = $_SERVER["REMOTE_ADDR"];
         if (isset($_SERVER["REMOTE_ADDR"])) {
@@ -71,15 +49,49 @@ class runtime_sessionsecurity
         return $ip;
     }
 
+    /**
+     * Distroys the current session
+     * @author Sam Mottley (smottley@zpanelcp.com)
+     * @return string The Clean IP.
+     */
+    public static function destroyCurrentSession()
+    {
+        $_SESSION['zpuid'] = null;
+        unset($_COOKIE['zUserSaltCookie']);
+        session_destroy();
+        return true;
+    }
+
+    /**
+     * Get users details that are spefic for the individual user only
+     * @author Sam Mottley (smottley@zpanelcp.com)
+     * @return string The data.
+     */
+    public static function userSpeficData()
+    {
+        $ip = self::findIP();
+        $username = $_SESSION['zpuid'];
+        return $ip . $username;
+    }
+
 
     /*****Here we are are gathering infomration and storing securty*****/
+    /**
+     * This function will set the users agent in a secure session and hashes
+     * @author Sam Mottley (smottley@zpanelcp.com)
+     * @return boolean.
+     */
+    public static function setUserAgent()
+    {
+        $_SESSION['HTTP_USER_AGENT'] = sha1($_SERVER['HTTP_USER_AGENT'], self::userSpeficData());
+    }
 
     /**
      * This function will set the users cookie login ID in a secure cookie and hashes
      * @author Sam Mottley (smottley@zpanelcp.com)
      * @return boolean.
      */
-    public static function setCookie(): bool
+    public static function setCookie()
     {
         $random = runtime_randomstring::randomHash(100);
         if (!isset($_SESSION['zUserSalt'], $_COOKIE['zUserSaltCookie']) || $_COOKIE['zUserSaltCookie'] != $_SESSION['zUserSalt']) {
@@ -94,7 +106,7 @@ class runtime_sessionsecurity
      * This function will set the users IP in a secure session and hashes
      * @author Sam Mottley (smottley@zpanelcp.com)
      */
-    public static function setUserIP(): void
+    public static function setUserIP()
     {
         $_SESSION['ip'] = sha1(self::findIP(), self::userSpeficData());
     }
@@ -104,7 +116,7 @@ class runtime_sessionsecurity
      * @author Sam Mottley (smottley@zpanelcp.com)
      * @return boolean.
      */
-    public static function setSessionSecurityEnabled($option): bool
+    public static function setSessionSecurityEnabled($option)
     {
         if ($option) {
             $_SESSION['zSessionSecurityEnabled'] = 1;
@@ -115,12 +127,141 @@ class runtime_sessionsecurity
         return false;
     }
 
+    /*****The below is returning the secure information*****/
+    /**
+     * This will return the secure session set version of the users agent
+     * @author Sam Mottley (smottley@zpanelcp.com)
+     * @return string The data.
+     */
+    public static function getSetUserAgent()
+    {
+        return $_SESSION['HTTP_USER_AGENT'];
+    }
+
+    /**
+     * This will return the secure session set version of the users ip
+     * @author Sam Mottley (smottley@zpanelcp.com)
+     * @return string The data.
+     */
+    public static function getSetIP()
+    {
+        return $_SESSION['ip'];
+    }
+
+    /**
+     * This will return the secure session set version of the users cookie
+     * @author Sam Mottley (smottley@zpanelcp.com)
+     * @return string The data.
+     */
+    public static function getSetCookie()
+    {
+        return $_SESSION['zUserSalt'];
+    }
+
+    /*****The below is retrieveing the current provided information*****/
+    /**
+     * This returns the current provied users agent via headers and THEN hashes
+     * @author Sam Mottley (smottley@zpanelcp.com)
+     * @return string The data.
+     */
+    public static function getProviedUserAgent()
+    {
+        return sha1($_SERVER['HTTP_USER_AGENT'], self::userSpeficData());
+    }
+
+    /**
+     * This returns the current provied users agent via headers and THEN hashes
+     * @author Sam Mottley (smottley@zpanelcp.com)
+     * @return string The data.
+     */
+    public static function getProviedCookie()
+    {
+        return $_COOKIE["zUserSaltCookie"];
+    }
+
+    /**
+     * This returns the current provied users IP and THEN hashes
+     * @author Sam Mottley (smottley@zpanelcp.com)
+     * @return string The data.
+     */
+    public static function getProviedIP()
+    {
+        return sha1(self::findIP(), self::userSpeficData());
+    }
+
+    /**
+     * This returns whether the user set the session secuirty option on login
+     * @author Sam Mottley (smottley@zpanelcp.com)
+     * @return boolean.
+     */
+    public static function getSessionSecurityEnabled()
+    {
+        if (isset($_SESSION['zSessionSecurityEnabled']) && $_SESSION['zSessionSecurityEnabled'] == 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /*****Below are function that check information and try to identy any tampering*****/
+    /**
+     * This checks wether the set user agent for the session is the same one as what is currently being provied
+     * @author Sam Mottley (smottley@zpanelcp.com)
+     * @return boolean.
+     */
+    public static function checkAgent()
+    {
+        $userSetAgent = self::getSetUserAgent();
+        $currentUserAgent = self::getProviedUserAgent();
+
+        if ($userSetAgent == $currentUserAgent) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * This checks wether the set user ip for the session is the same one as what is currently being provied
+     * @author Sam Mottley (smottley@zpanelcp.com)
+     * @return boolean.
+     */
+    public static function checkIP()
+    {
+        $userSetIP = self::getSetIP();
+        $currentUserIP = self::getProviedIP();
+
+        if ($userSetIP == $currentUserIP) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * This checks wether the set user ip for the session is the same one as what is currently being provied
+     * @author Sam Mottley (smottley@zpanelcp.com)
+     * @return boolean.
+     */
+    public static function checkCookie()
+    {
+        $userSetCookie = self::getSetCookie();
+        $currentUserCookie = self::getProviedCookie();
+
+        if ($userSetCookie == $currentUserCookie) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * This checks wheather the user is behind a proxy
      * @author Sam Mottley (smottley@zpanelcp.com)
      * @return boolean
      */
-    public static function checkProxy(): bool
+    public static function checkProxy()
     {
         if (@$_SERVER['HTTP_X_FORWARDED_FOR'] || @$_SERVER['HTTP_X_FORWARDED'] || @$_SERVER['HTTP_FORWARDED_FOR'] || @$_SERVER['HTTP_CLIENT_IP'] || @$_SERVER['HTTP_VIA'] || @in_array($_SERVER['REMOTE_PORT'], array(8080, 80, 6588, 8000, 3128, 553, 554)) || @fsockopen($_SERVER['REMOTE_ADDR'], 80, $errno, $errstr, 1)) {
             return true;
@@ -129,14 +270,27 @@ class runtime_sessionsecurity
         return false;
     }
 
-    /*****The below is returning the secure information*****/
+    /**
+     * Check if session secuirty enabled
+     * @author Sam Mottley (smottley@zpanelcp.com)
+     * @return boolean
+     */
+    public static function checkSessionSecurityEnabled()
+    {
+        if (self::getSessionSecurityEnabled()) {
+            return true;
+        }
 
+        return false;
+    }
+
+    /*****Below is the heart of the class*****/
     /**
      * This checks wheather the session has been stolen or not
      * @author Sam Mottley (smottley@zpanelcp.com)
      * @return boolean
      */
-    public static function antiSessionHijacking(): bool
+    public static function antiSessionHijacking()
     {
         $checkIP = self::checkIP();
         $checkUserAgent = self::checkAgent();
@@ -172,161 +326,6 @@ class runtime_sessionsecurity
 
         self::destroyCurrentSession();
         return false;
-    }
-
-    /**
-     * This checks wether the set user ip for the session is the same one as what is currently being provied
-     * @author Sam Mottley (smottley@zpanelcp.com)
-     * @return boolean.
-     */
-    public static function checkIP(): bool
-    {
-        $userSetIP = self::getSetIP();
-        $currentUserIP = self::getProviedIP();
-
-        if ($userSetIP == $currentUserIP) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * This will return the secure session set version of the users ip
-     * @author Sam Mottley (smottley@zpanelcp.com)
-     * @return string The data.
-     */
-    public static function getSetIP(): string
-    {
-        return $_SESSION['ip'];
-    }
-
-    /*****The below is retrieveing the current provided information*****/
-
-    /**
-     * This returns the current provied users IP and THEN hashes
-     * @author Sam Mottley (smottley@zpanelcp.com)
-     * @return string The data.
-     */
-    public static function getProviedIP(): string
-    {
-        return sha1(self::findIP(), self::userSpeficData());
-    }
-
-    /**
-     * This checks wether the set user agent for the session is the same one as what is currently being provied
-     * @author Sam Mottley (smottley@zpanelcp.com)
-     * @return boolean.
-     */
-    public static function checkAgent(): bool
-    {
-        $userSetAgent = self::getSetUserAgent();
-        $currentUserAgent = self::getProviedUserAgent();
-
-        if ($userSetAgent == $currentUserAgent) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * This will return the secure session set version of the users agent
-     * @author Sam Mottley (smottley@zpanelcp.com)
-     * @return string The data.
-     */
-    public static function getSetUserAgent(): string
-    {
-        return $_SESSION['HTTP_USER_AGENT'];
-    }
-
-    /**
-     * This returns the current provied users agent via headers and THEN hashes
-     * @author Sam Mottley (smottley@zpanelcp.com)
-     * @return string The data.
-     */
-    public static function getProviedUserAgent(): string
-    {
-        return sha1($_SERVER['HTTP_USER_AGENT'], self::userSpeficData());
-    }
-
-
-    /*****Below are function that check information and try to identy any tampering*****/
-
-    /**
-     * This checks wether the set user ip for the session is the same one as what is currently being provied
-     * @author Sam Mottley (smottley@zpanelcp.com)
-     * @return boolean.
-     */
-    public static function checkCookie(): bool
-    {
-        $userSetCookie = self::getSetCookie();
-        $currentUserCookie = self::getProviedCookie();
-
-        if ($userSetCookie == $currentUserCookie) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * This will return the secure session set version of the users cookie
-     * @author Sam Mottley (smottley@zpanelcp.com)
-     * @return string The data.
-     */
-    public static function getSetCookie(): string
-    {
-        return $_SESSION['zUserSalt'];
-    }
-
-    /**
-     * This returns the current provied users agent via headers and THEN hashes
-     * @author Sam Mottley (smottley@zpanelcp.com)
-     * @return string The data.
-     */
-    public static function getProviedCookie(): string
-    {
-        return $_COOKIE["zUserSaltCookie"];
-    }
-
-    /**
-     * Distroys the current session
-     * @author Sam Mottley (smottley@zpanelcp.com)
-     * @return string The Clean IP.
-     */
-    public static function destroyCurrentSession(): string
-    {
-        $_SESSION['zpuid'] = null;
-        unset($_COOKIE['zUserSaltCookie']);
-        session_destroy();
-        return true;
-    }
-
-    /**
-     * Check if session secuirty enabled
-     * @author Sam Mottley (smottley@zpanelcp.com)
-     * @return boolean
-     */
-    public static function checkSessionSecurityEnabled(): bool
-    {
-        if (self::getSessionSecurityEnabled()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /*****Below is the heart of the class*****/
-
-    /**
-     * This returns whether the user set the session secuirty option on login
-     * @author Sam Mottley (smottley@zpanelcp.com)
-     * @return boolean.
-     */
-    public static function getSessionSecurityEnabled(): bool
-    {
-        return isset($_SESSION['zSessionSecurityEnabled']) && $_SESSION['zSessionSecurityEnabled'] == 1;
     }
 }
 

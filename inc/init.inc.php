@@ -23,7 +23,7 @@ if (isset($_GET['returnsession'])) {
         ctrl_auth::SetUserSession($_SESSION['ruid'], runtime_sessionsecurity::getSessionSecurityEnabled());
         $_SESSION['ruid'] = null;
     }
-    header("location: ./");
+    header('location: ./');
     exit;
 }
 
@@ -97,7 +97,7 @@ if (isset($_POST['inConfEmail'])) {
 }
 
 if (isset($_POST['inUsername'])) {
-    if (ctrl_options::GetSystemOption('login_csfr') === 'false')
+    if (ctrl_options::GetSystemOption('login_csfr') == 'false')
         runtime_csfr::Protect();
 
     $rememberdetails = isset($_POST['inRemember']);
@@ -120,7 +120,11 @@ if (isset($_POST['inUsername'])) {
 
 if (isset($_COOKIE['zUser'])) {
 
-    $secure = isset($_COOKIE['zSec']) ? (bool)$_COOKIE['zSec'] : true;
+    if (isset($_COOKIE['zSec'])) {
+        $secure = $_COOKIE['zSec'] != false;
+    } else {
+        $secure = true;
+    }
 
     ctrl_auth::Authenticate($_COOKIE['zUser'], $_COOKIE['zPass'], false, $secure);
 }
@@ -133,4 +137,3 @@ if (!isset($_SESSION['zpuid'])) {
 runtime_hook::Execute('OnBeforeControllerInit');
 $controller->Init();
 ui_templateparser::Generate('etc/styles/' . ui_template::GetUserTemplate());
-
