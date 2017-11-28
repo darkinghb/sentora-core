@@ -1,0 +1,38 @@
+<div class="zmodule_content panel" id="zmodule_header_<@ ModuleName @>">
+    <div class="panel-heading">
+        <img src="<@ ModuleIcon @>" width="35" height="35" border="0" alt="<@ ModuleName @>">
+
+        <div class="zmodule_title">
+            <@ ModuleName @>
+        </div>
+
+        <div class="zmodule_desc" id="zmodule_desc_<@ ModuleName @>"><@ ModuleDesc @></div>
+
+    </div>
+
+    <@ Result @>
+
+    <div class="zgrid_wrapper">
+        <h2>
+            <: PHP Version :>
+        </h2>
+        <form action="./?module=php_changer&action=UpdateConfig" method="post">
+            <table class="table table-striped">
+                <% loop Config %>
+                <tr valign="top">
+                    <th nowrap="nowrap"><& cleanname &></th>
+                    <td><& fieldhtml &><br><& description &><br><br></td>
+                </tr>
+                <% endloop %>
+                <tr>
+                    <th colspan="3">
+                        <@ CSFR_Tag @>
+                        <button class="button-loader btn btn-primary" type="submit" id="button" name="inSaveSystem">
+                            <: Save Changes :>
+                        </button>
+                    </th>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

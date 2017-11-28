@@ -20,9 +20,9 @@ class ctrl_auth
      * Checks that the server has a valid session for the user if not it will redirect to the login screen.
      * @author Bobby Allen (ballen@bobbyallen.me)
      * @global db_driver $zdbh The ZPX database handle.
-     * return bool
+     * @return bool
      */
-    public static function RequireUser()
+    public static function RequireUser(): bool
     {
         global $zdbh;
         if (!isset($_SESSION['zpuid'])) {
@@ -36,12 +36,12 @@ class ctrl_auth
                 } else {
                     $secure = true;
                 }
-                self::Authenticate($_COOKIE['zUser'], $_COOKIE['zPass'], false, true, $secure);
+                self::Authenticate($_COOKIE['zUser'], $_COOKIE['zPass'], true, $secure);
             }
             runtime_hook::Execute('OnRequireUserLogin');
-            $sqlQuery = "SELECT ac_usertheme_vc, ac_usercss_vc FROM
+            $sqlQuery = 'SELECT ac_usertheme_vc, ac_usercss_vc FROM
                          x_accounts WHERE
-                         ac_user_vc = :zadmin";
+                         ac_user_vc = :zadmin';
             $bindArray = array(':zadmin' => 'zadmin');
             $zdbh->bindQuery($sqlQuery, $bindArray);
             $themeRow = $zdbh->returnRow();

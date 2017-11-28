@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright 2014-2015 Sentora Project (http://www.sentora.org/) 
+ * @copyright 2014-2015 Sentora Project (http://www.sentora.org/)
  * Sentora is a GPL fork of the ZPanel Project whose original header follows:
  *
  * The controller class!
@@ -35,6 +35,43 @@ class runtime_controller
      * @var array All current request 'cookie' variables.
      */
     private $vars_cookie;
+
+    /**
+     * Checks if the current script is running in CLI mode (eg. as a cron job)
+     * @author Bobby Allen (ballen@bobbyallen.me)
+     * @return boolean
+     */
+    static function IsCLI()
+    {
+        if (isset($_SERVER['HTTP_USER_AGENT']))
+            return false;
+        return true;
+    }
+
+    /**
+     * Used in hooks to communicate with the modules controller.ext.php
+     * @author Bobby Allen (ballen@bobbyallen.me)
+     * @param string $module_path The full path to the module.
+     */
+    static function ModuleControllerCode($module_path)
+    {
+        $raw_path = str_replace("\\", "/", $module_path);
+        $module_path = str_replace("/hooks", "/code/", $raw_path);
+        $rawroot_path = str_replace("\\", "/", dirname(__FILE__));
+        $root_path = str_replace("/dryden/runtime", "/", $rawroot_path);
+        require_once $root_path . 'dryden/loader.inc.php';
+        require_once $root_path . 'cnf/db.php';
+        require_once $root_path . 'inc/dbc.inc.php';
+        if (file_exists($module_path . 'controller.ext.php')) {
+            require_once $module_path . 'controller.ext.php';
+        } else {
+            $hook_log = new debug_logger();
+            $hook_log->method = ctrl_options::GetSystemOption('logmode');
+            $hook_log->logcode = "611";
+            $hook_log->detail = "No hook controller.ext.php avaliable to import in (" . $root_path . 'controller.ext.php' . ")";
+            $hook_log->writeLog();
+        }
+    }
 
     /**
      * Get the latest requests and updates the values avaliable to the model/view.
@@ -72,6 +109,17 @@ class runtime_controller
     }
 
     /**
+     * Gets and returns the name of the current module.
+     * @return boolean
+     */
+    public function GetCurrentModule()
+    {
+        if (isset($this->vars_get[0]['module']))
+            return $this->vars_get[0]['module'];
+        return false;
+    }
+
+    /**
      * Returns a vlaue from one of the requested type.
      * @author Bobby Allen (ballen@bobbyallen.me)
      * @param string $type The type of request data to return.
@@ -83,47 +131,21 @@ class runtime_controller
         if ($type == 'FORM') {
             if (isset($this->vars_post[0][$name])) {
                 return $this->vars_post[0][$name];
-            } else {
-                return false;
             }
         } elseif ($type == 'URL') {
             if (isset($this->vars_get[0][$name])) {
                 return $this->vars_get[0][$name];
-            } else {
-                return false;
             }
+
         } elseif ($type == 'USER') {
             if (isset($this->vars_session[0][$name])) {
                 return $this->vars_session[0][$name];
-            } else {
-                return false;
             }
+
         } else {
             if (isset($this->vars_cookie[0][$name])) {
                 return $this->vars_cookie[0][$name];
-            } else {
-                return false;
             }
-        }
-        return false;
-    }
-
-    /**
-     * Grabs the list of all controller requests for a given type.
-     * @author Bobby Allen (ballen@bobbyallen.me)
-     * @param string $type What type of requests would you like to see? (URL, USER, FORM or COOKIE)
-     * @return array List of all set variables for the requested type.
-     */
-    public function GetAllControllerRequests($type = "URL")
-    {
-        if ($type == 'FORM') {
-            return $this->vars_post[0];
-        } elseif ($type == 'URL') {
-            return $this->vars_get[0];
-        } elseif ($type == 'USER') {
-            return $this->vars_session[0];
-        } else {
-            return $this->vars_cookie[0];
         }
         return false;
     }
@@ -147,17 +169,6 @@ class runtime_controller
     {
         if (isset($this->vars_get[0]['options']))
             return $this->vars_get[0]['options'];
-        return false;
-    }
-
-    /**
-     * Gets and returns the name of the current module.
-     * @return boolean
-     */
-    public function GetCurrentModule()
-    {
-        if (isset($this->vars_get[0]['module']))
-            return $this->vars_get[0]['module'];
         return false;
     }
 
@@ -212,40 +223,23 @@ class runtime_controller
     }
 
     /**
-     * Checks if the current script is running in CLI mode (eg. as a cron job)
+     * Grabs the list of all controller requests for a given type.
      * @author Bobby Allen (ballen@bobbyallen.me)
-     * @return boolean
+     * @param string $type What type of requests would you like to see? (URL, USER, FORM or COOKIE)
+     * @return array List of all set variables for the requested type.
      */
-    static function IsCLI()
+    public function GetAllControllerRequests($type = "URL")
     {
-        if (isset($_SERVER['HTTP_USER_AGENT']))
-            return false;
-        return true;
-    }
-
-    /**
-     * Used in hooks to communicate with the modules controller.ext.php
-     * @author Bobby Allen (ballen@bobbyallen.me)
-     * @param string $module_path The full path to the module.
-     */
-    static function ModuleControllerCode($module_path)
-    {
-        $raw_path = str_replace("\\", "/", $module_path);
-        $module_path = str_replace("/hooks", "/code/", $raw_path);
-        $rawroot_path = str_replace("\\", "/", dirname(__FILE__));
-        $root_path = str_replace("/dryden/runtime", "/", $rawroot_path);
-        require_once $root_path . 'dryden/loader.inc.php';
-        require_once $root_path . 'cnf/db.php';
-        require_once $root_path . 'inc/dbc.inc.php';
-        if (file_exists($module_path . 'controller.ext.php')) {
-            require_once $module_path . 'controller.ext.php';
+        if ($type == 'FORM') {
+            return $this->vars_post[0];
+        } elseif ($type == 'URL') {
+            return $this->vars_get[0];
+        } elseif ($type == 'USER') {
+            return $this->vars_session[0];
         } else {
-            $hook_log = new debug_logger();
-            $hook_log->method = ctrl_options::GetSystemOption('logmode');
-            $hook_log->logcode = "611";
-            $hook_log->detail = "No hook controller.ext.php avaliable to import in (" . $root_path . 'controller.ext.php' . ")";
-            $hook_log->writeLog();
+            return $this->vars_cookie[0];
         }
+        return false;
     }
 
 }
