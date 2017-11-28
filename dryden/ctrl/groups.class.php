@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright 2014-2015 Sentora Project (http://www.sentora.org/) 
+ * @copyright 2014-2015 Sentora Project (http://www.sentora.org/)
  * Sentora is a GPL fork of the ZPanel Project whose original header follows:
  *
  * Group permissions class, handles user group permissions.
@@ -13,7 +13,8 @@
  * @link http://www.zpanelcp.com/
  * @license GPL (http://www.gnu.org/licenses/gpl.html)
  */
-class ctrl_groups {
+class ctrl_groups
+{
 
     /**
      * Checks permissions to a module for a given user group.
@@ -23,12 +24,13 @@ class ctrl_groups {
      * @param int $moduleid The module ID.
      * @return bool
      */
-    static function CheckGroupModulePermissions($groupid, $moduleid) {
+    static function CheckGroupModulePermissions($groupid, $moduleid)
+    {
         global $zdbh;
-        $sqlString = "SELECT pe_id_pk FROM 
+        $sqlString = 'SELECT pe_id_pk FROM 
                     x_permissions WHERE 
                     pe_group_fk = :groupid AND 
-                    pe_module_fk = :moduleid";
+                    pe_module_fk = :moduleid';
         $bindArray = array(
             ':groupid' => $groupid,
             ':moduleid' => $moduleid,
@@ -49,39 +51,24 @@ class ctrl_groups {
      * @param int $moduleid The module ID.
      * @return bool
      */
-    static function AddGroupModulePermissions($groupid, $moduleid) {
+    public static function AddGroupModulePermissions($groupid, $moduleid): bool
+    {
         global $zdbh;
-        $sqlString = "SELECT COUNT(*) FROM 
-                     x_permissions WHERE 
-                     pe_group_fk = :groupid AND 
-                     pe_module_fk = :moduleid";
-        $bindArray = array(
+        $sqlPrepare = $zdbh->bindQuery('SELECT COUNT(*) FROM x_permissions WHERE pe_group_fk = :groupid AND pe_module_fk = :moduleid', array(
             ':groupid' => $groupid,
             ':moduleid' => $moduleid,
-        );
-        $sqlPrepare = $zdbh->prepare($sqlString);
-        $zdbh->bindParams($sqlPrepare, $bindArray);
-        unset($sqlString);
+        ));
         $rowCount = $sqlPrepare->rowCount();
         unset($sqlPrepare);
 
         if ($rowCount < 1) {
-            $sqlString = "INSERT INTO x_permissions 
-                         ( pe_group_fk , pe_module_fk ) VALUES 
-                         ( :groupid , :moduleid )";
-            $bindArray = array(
-                ':groupid' => $groupid,
-                ':moduleid' => $moduleid,
-            );
-            $sqlPrepare = $zdbh->prepare($sqlString);
-            $zdbh->bindParams($sqlPrepare, $bindArray);
+            $sqlPrepare = $zdbh->bindQuery('INSERT INTO x_permissions ( pe_group_fk , pe_module_fk ) VALUES ( :groupid , :moduleid )', [':groupid' => $groupid, ':moduleid' => $moduleid]);
             $result = $sqlPrepare->execute();
             if ($result > 0) {
                 return true;
-            } else {
-                return false;
             }
         }
+        return false;
     }
 
     /**
@@ -92,9 +79,10 @@ class ctrl_groups {
      * @param int $moduleid The module ID.
      * @return bool
      */
-    static function DeleteGroupModulePermissions($groupid, $moduleid) {
+    static function DeleteGroupModulePermissions($groupid, $moduleid)
+    {
         global $zdbh;
-        $sqlString = "DELETE FROM x_permissions WHERE pe_module_fk = :moduleid ";
+        $sqlString = 'DELETE FROM x_permissions WHERE pe_module_fk = :moduleid ';
         if ($groupid > 0) {
             $sqlString .= "AND pe_group_fk = :groupid";
             $sqlQuery = $zdbh->prepare($sqlString);
@@ -106,9 +94,9 @@ class ctrl_groups {
 
         if ($sqlQuery->execute() > 0) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
 }

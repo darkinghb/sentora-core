@@ -13,73 +13,8 @@
  * @link http://www.zpanelcp.com/
  * @license GPL (http://www.gnu.org/licenses/gpl.html)
  */
-class db_driver extends PDO {
-
-    /**
-     *
-     * @var \PDOStatement
-     */
-    private $_prepared = null;
-
-    /**
-     *
-     * @var \PDOStatement
-     */
-    private $_executed = null;
-
-    /**
-     *
-     * @var array
-     */
-    private $_result = null;
-
-    /**
-     *
-     */
-    private $queriesExecuted = array();
-
-    /**
-     *
-     * @param type $prepared
-     */
-    private function setPrepared($prepared) {
-        $this->_prepared = $prepared;
-    }
-
-    /**
-     *
-     * @param type $executed
-     */
-    private function setExecuted($executed) {
-        $this->_executed = $executed;
-    }
-
-    /**
-     *
-     * @return \PDOStatement
-     */
-    private function getPrepared() {
-        return $this->_prepared;
-    }
-
-    /**
-     *
-     * @return \PDOStatement
-     */
-    private function getExecuted() {
-        return $this->_executed;
-    }
-
-    /**
-     *
-     * @param String $dsn
-     * @param String $username
-     * @param String $password
-     * @param $driver_options [optional]
-     */
-    public function __construct($dsn, $username = null, $password = null, $driver_options = null) {
-        parent::__construct($dsn, $username, $password, $driver_options);
-    }
+class db_driver extends PDO
+{
 
     var $css = "<style type=\"text/css\"><!--
             .dbwarning {
@@ -99,27 +34,43 @@ class db_driver extends PDO {
                 color: #666;
             }
             </style>";
+    /**
+     *
+     * @var \PDOStatement
+     */
+    private $_prepared = null;
+    /**
+     *
+     * @var \PDOStatement
+     */
+    private $_executed = null;
+    /**
+     *
+     * @var array
+     */
+    private $_result = null;
+    /**
+     *
+     */
+    private $queriesExecuted = array();
 
     /**
      *
-     * @param String $exception
-     * @return String
+     * @param String $dsn
+     * @param String $username
+     * @param String $password
+     * @param $driver_options [optional]
      */
-    private function cleanexpmessage($exception) {
-        $res = strstr($exception, "]: ", false);
-        $res1 = str_replace(']: ', '', $res);
-        $res2 = strstr($res1, 'Stack', true);
-        $stack = strstr($exception, 'Stack trace:', false);
-        $stack1 = strstr($stack, '}', true);
-        $stack2 = str_replace("Stack trace:", "", $stack1);
-        return $res2 . $stack2 . "}";
+    public function __construct($dsn, $username = null, $password = null, $driver_options = null)
+    {
+        parent::__construct($dsn, $username, $password, $driver_options);
     }
 
     public function query($query): ?\PDOStatement
     {
         try {
             $result = parent::query($query);
-            return($result);
+            return ($result);
         } catch (PDOException $e) {
             $errormessage = $this->errorInfo();
             $clean = $this->cleanexpmessage($e);
@@ -132,9 +83,26 @@ class db_driver extends PDO {
         }
     }
 
-    public function exec($query) {
+    /**
+     *
+     * @param String $exception
+     * @return String
+     */
+    private function cleanexpmessage($exception)
+    {
+        $res = strstr($exception, "]: ", false);
+        $res1 = str_replace(']: ', '', $res);
+        $res2 = strstr($res1, 'Stack', true);
+        $stack = strstr($exception, 'Stack trace:', false);
+        $stack1 = strstr($stack, '}', true);
+        $stack2 = str_replace("Stack trace:", "", $stack1);
+        return $res2 . $stack2 . "}";
+    }
+
+    public function exec($query)
+    {
         try {
-           return parent::exec($query);
+            return parent::exec($query);
         } catch (PDOException $e) {
             $errormessage = $this->errorInfo();
             $clean = $this->cleanexpmessage($e);
@@ -153,19 +121,16 @@ class db_driver extends PDO {
      * @author Kevin Andrews (kandrews@zpanelcp.com)
      * @param String $sqlString
      * @param Array $bindArray
-     * @param Array $driver_options [optional]
-     * @return \PDOStatement
+     * @return PDOStatement
+     * @internal param array $driver_options [optional]
      */
-    public function bindQuery($sqlString, array $bindArray, $driver_options = array()) {
-        $sqlPrepare = $this->prepare($sqlString, $driver_options);
-        $this->setPrepared($sqlPrepare);
+    public function bindQuery($sqlString, array $bindArray): \PDOStatement
+    {
+        $prep = parent::prepare($sqlString);
+        $prep->execute($bindArray);
+        $this->setExecuted($prep);
 
-        $this->bindParams($sqlPrepare, $bindArray);
-
-        $sqlPrepare->execute();
-        $this->setExecuted($sqlPrepare);
-
-        return $sqlPrepare;
+        return $prep;
     }
 
     public function prepare($query, $driver_options = array()): ?\PDOStatement
@@ -173,7 +138,7 @@ class db_driver extends PDO {
         try {
             $result = parent::prepare($query, $driver_options);
             $this->queriesExecuted[] = $query;
-            return($result);
+            return ($result);
         } catch (PDOException $e) {
             $errormessage = $this->errorInfo();
             $clean = $this->cleanexpmessage($e);
@@ -186,32 +151,42 @@ class db_driver extends PDO {
         }
     }
 
+
+
     /**
-     * Binding an array of bind variable pairs to a prepared sql statement.
-     * @author Kevin Andrews (kandrews@zpanelcp.com)
-     * @param PDOStatement $sqlPrepare
-     * @param array $bindArray
-     * @return \PDOStatement
+     *
+     * @param PDOStatement $executed
      */
-    public function bindParams(PDOStatement $sqlPrepare, array $bindArray) {
-        foreach ($bindArray as $bindKey => &$bindValue) {
-            $sqlPrepare->bindParam($bindKey, $bindValue);
-        }
+    private function setExecuted(PDOStatement $executed): void
+    {
+        $this->_executed = $executed;
+    }
+
+    public function queryWithParams($query, $params): PDOStatement
+    {
+
+    }
+
+    public function returnRow()
+    {
+        return $this->getExecuted()->fetch(PDO::FETCH_ASSOC);
     }
 
     /**
-     * Returns the first result or next result if previously called.
-     * @return array
+     *
+     * @return \PDOStatement
      */
-    public function returnRow() {
-        return $this->getExecuted()->fetch(PDO::FETCH_ASSOC);
+    private function getExecuted()
+    {
+        return $this->_executed;
     }
 
     /**
      * Returns a multidimensional array of results.
      * @return array
      */
-    public function returnRows() {
+    public function returnRows()
+    {
         return $this->getExecuted()->fetchAll();
     }
 
@@ -219,7 +194,8 @@ class db_driver extends PDO {
      * Returns the rows affected by any query.
      * @return int
      */
-    public function returnResult() {
+    public function returnResult()
+    {
         return $this->getExecuted()->rowCount();
     }
 
@@ -229,7 +205,8 @@ class db_driver extends PDO {
      * @param String $string string to be cleaned
      * @return String Clean version of the string
      */
-    public function mysqlRealEscapeString($string) {
+    public function mysqlRealEscapeString($string)
+    {
         $search = array("\\", "\0", "\n", "\r", "\x1a", "'", '"', "`"); //`
         $replace = array("\\\\", "\\0", "\\n", "\\r", "\Z", "\'", '\"', ""); //`
         $cleanString = str_replace($search, $replace, $string);
@@ -241,9 +218,12 @@ class db_driver extends PDO {
      * @author Bobby Allen (ballen@bobbyallen.me)
      * @return array List of executed SQL queries.
      */
-    public function getExecutedQueries() {
+    public function getExecutedQueries()
+    {
         return $this->queriesExecuted;
     }
+
+
 
 }
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright 2014-2015 Sentora Project (http://www.sentora.org/) 
+ * @copyright 2014-2015 Sentora Project (http://www.sentora.org/)
  * Sentora is a GPL fork of the ZPanel Project whose original header follows:
  *
  * ZPanel - A Cross-Platform Open-Source Web Hosting Control panel.
@@ -44,7 +44,6 @@ class module_controller extends ctrl_module
     static function getCrons()
     {
         global $zdbh;
-        global $controller;
         $currentuser = ctrl_users::GetUserDetail();
         $line = "<h2>" . ui_language::translate("Current Cron Tasks") . "</h2>";
         $sql = "SELECT COUNT(*) FROM x_cronjobs WHERE ct_acc_fk=:userid AND ct_deleted_ts IS NULL";
@@ -83,23 +82,61 @@ class module_controller extends ctrl_module
         }
     }
 
+    static function TranslateTiming($timing)
+    {
+        $timing = trim($timing);
+        $retval = NULL;
+        if ($timing == "* * * * *") {
+            $retval = "Every 1 minute";
+        }
+        if ($timing == "0,5,10,15,20,25,30,35,40,45,50,55 * * * *") {
+            $retval = "Every 5 minutes";
+        }
+        if ($timing == "0,10,20,30,40,50 * * * *") {
+            $retval = "Every 10 minutes";
+        }
+        if ($timing == "0,30 * * * *") {
+            $retval = "Every 30 minutes";
+        }
+        if ($timing == "0 * * * *") {
+            $retval = "Every 1 hour";
+        }
+        if ($timing == "0 0,2,4,6,8,10,12,14,16,18,20,22 * * *") {
+            $retval = "Every 2 hours";
+        }
+        if ($timing == "0 0,8,16 * * *") {
+            $retval = "Every 8 hours";
+        }
+        if ($timing == "0 0,12 * * *") {
+            $retval = "Every 12 hours";
+        }
+        if ($timing == "0 0 * * *") {
+            $retval = "Every day";
+        }
+        if ($timing == "0 0 * * 0") {
+            $retval = "Every week";
+        }
+        if ($timing == "0 0 1 * *") {
+            $retval = "Every month";
+        }
+        return $retval;
+    }
+
     static function getCreateCron()
     {
-        global $zdbh;
-        global $controller;
         $currentuser = ctrl_users::GetUserDetail();
 
-         $line .= "<h2>" . ui_language::translate("Create a new task") . "</h2>";
+        $line .= "<h2>" . ui_language::translate("Create a new task") . "</h2>";
         $line .= "<form action=\"./?module=cron&action=CreateCron\" method=\"post\">";
         $line .= "<table class=\"table table-striped\">";
         $line .= "<tr valign=\"top\">";
         $line .= "<th>" . ui_language::translate("Script") . ":</th>";
         $line .= '<td><input name="inScript" type="text" id="inScript" size="50" /><br />'
-                . ui_language::translate("example") . ': /folder/task.php<br>'
-                . ui_language::translate('Note 1 : Script path is relative to your sentora-user root directory:') . '<br>'
-                . ' &nbsp; <b>' . ctrl_options::GetSystemOption('hosted_dir') . $currentuser['username'] . '/public_html/</b><br>'
-                . ui_language::translate('Note 2 : Each file access in your script must use absolute directory path as above.')
-                . '</td>';
+            . ui_language::translate("example") . ': /folder/task.php<br>'
+            . ui_language::translate('Note 1 : Script path is relative to your sentora-user root directory:') . '<br>'
+            . ' &nbsp; <b>' . ctrl_options::GetSystemOption('hosted_dir') . $currentuser['username'] . '/public_html/</b><br>'
+            . ui_language::translate('Note 2 : Each file access in your script must use absolute directory path as above.')
+            . '</td>';
         $line .= "</tr>";
         $line .= "<tr>";
         $line .= "<th>" . ui_language::translate("Comment") . ":</th>";
@@ -118,7 +155,7 @@ class module_controller extends ctrl_module
         $line .= "<option value=\"0 0,12 * * *\">" . ui_language::translate("Every 12 hours") . "</option>";
         $line .= "<option value=\"0 0 * * *\">" . ui_language::translate("Every 1 day") . "</option>";
         $line .= "<option value=\"0 0 * * 0\">" . ui_language::translate("Every week") . "</option>";
-        $line .="<option value=\"0 0 1 * *\">" . ui_language::translate("Every month") . "</option>";
+        $line .= "<option value=\"0 0 1 * *\">" . ui_language::translate("Every month") . "</option>";
         $line .= "</select></td>";
         $line .= "</tr>";
         $line .= "<tr>";
@@ -141,8 +178,8 @@ class module_controller extends ctrl_module
         $currentuser = ctrl_users::GetUserDetail();
         if (fs_director::CheckForEmptyValue(self::CheckCronForErrors())) {
             // If the user submitted a 'new' request then we will simply add the cron task to the database...
-            $sql = $zdbh->prepare("INSERT INTO x_cronjobs (ct_acc_fk, ct_script_vc, ct_description_tx, ct_timing_vc, ct_fullpath_vc, ct_created_ts) VALUES (:userid, :script, :desc, :timing, :fullpath, " . time() . ")");
-            $sql->bindParam(':userid', $controller->GetControllerRequest('FORM', 'inUserID'));
+            $sql = $zdbh->prepare('INSERT INTO x_cronjobs (ct_acc_fk, ct_script_vc, ct_description_tx, ct_timing_vc, ct_fullpath_vc, ct_created_ts) VALUES (:userid, :script, :desc, :timing, :fullpath, ' . time() . ")");
+            $sql->bindParam(':userid', $currentuser['userid']);
             $sql->bindParam(':script', $controller->GetControllerRequest('FORM', 'inScript'));
             $sql->bindParam(':desc', $controller->GetControllerRequest('FORM', 'inDescription'));
             $sql->bindParam(':timing', $controller->GetControllerRequest('FORM', 'inTiming'));
@@ -152,37 +189,6 @@ class module_controller extends ctrl_module
             self::WriteCronFile();
             self::$ok = TRUE;
             return;
-        }
-        self::$error = TRUE;
-        return;
-    }
-
-    static function doDeleteCron()
-    {
-        global $zdbh;
-        global $controller;
-        runtime_csfr::Protect();
-        $currentuser = ctrl_users::GetUserDetail();
-        $sql = "SELECT COUNT(*) FROM x_cronjobs WHERE ct_acc_fk=:userid AND ct_deleted_ts IS NULL";
-        $numrows = $zdbh->prepare($sql);
-        $numrows->bindParam(':userid', $currentuser['userid']);
-        if ($numrows->execute()) {
-            if ($numrows->fetchColumn() <> 0) {
-                $sql = $zdbh->prepare("SELECT * FROM x_cronjobs WHERE ct_acc_fk=:userid AND ct_deleted_ts IS NULL");
-                $sql->bindParam(':userid', $currentuser['userid']);
-                $sql->execute();
-                while ($rowcrons = $sql->fetch()) {
-                    if (!fs_director::CheckForEmptyValue($controller->GetControllerRequest('FORM', 'inDelete_' . $rowcrons['ct_id_pk'] . ''))) {
-                        $sql2 = $zdbh->prepare("UPDATE x_cronjobs SET ct_deleted_ts=:time WHERE ct_id_pk=:cronid");
-                        $sql2->bindParam(':cronid', $rowcrons['ct_id_pk']);
-                        $sql2->bindParam(':time', time());
-                        $sql2->execute();
-                        self::WriteCronFile();
-                        self::$ok = TRUE;
-                        return;
-                    }
-                }
-            }
         }
         self::$error = TRUE;
         return;
@@ -282,13 +288,13 @@ class module_controller extends ctrl_module
         if (fs_filehandler::UpdateFile(ctrl_options::GetSystemOption('cron_file'), 0644, $line)) {
             if (sys_versions::ShowOSPlatformVersion() != "Windows") {
                 $returnValue = ctrl_system::systemCommand(
-                                   ctrl_options::GetSystemOption('zsudo'), array(
-                                      ctrl_options::GetSystemOption('cron_reload_command'),
-                                      ctrl_options::GetSystemOption('cron_reload_flag'),
-                                      ctrl_options::GetSystemOption('cron_reload_user'),
-                                      ctrl_options::GetSystemOption('cron_reload_path'),
-                                   )
-                               );
+                    ctrl_options::GetSystemOption('zsudo'), array(
+                        ctrl_options::GetSystemOption('cron_reload_command'),
+                        ctrl_options::GetSystemOption('cron_reload_flag'),
+                        ctrl_options::GetSystemOption('cron_reload_user'),
+                        ctrl_options::GetSystemOption('cron_reload_path'),
+                    )
+                );
             }
             return true;
         } else {
@@ -296,44 +302,35 @@ class module_controller extends ctrl_module
         }
     }
 
-    static function TranslateTiming($timing)
+    static function doDeleteCron()
     {
-        $timing = trim($timing);
-        $retval = NULL;
-        if ($timing == "* * * * *") {
-            $retval = "Every 1 minute";
+        global $zdbh;
+        global $controller;
+        runtime_csfr::Protect();
+        $currentuser = ctrl_users::GetUserDetail();
+        $sql = "SELECT COUNT(*) FROM x_cronjobs WHERE ct_acc_fk=:userid AND ct_deleted_ts IS NULL";
+        $numrows = $zdbh->prepare($sql);
+        $numrows->bindParam(':userid', $currentuser['userid']);
+        if ($numrows->execute()) {
+            if ($numrows->fetchColumn() <> 0) {
+                $sql = $zdbh->prepare("SELECT * FROM x_cronjobs WHERE ct_acc_fk=:userid AND ct_deleted_ts IS NULL");
+                $sql->bindParam(':userid', $currentuser['userid']);
+                $sql->execute();
+                while ($rowcrons = $sql->fetch()) {
+                    if (!fs_director::CheckForEmptyValue($controller->GetControllerRequest('FORM', 'inDelete_' . $rowcrons['ct_id_pk'] . ''))) {
+                        $sql2 = $zdbh->prepare("UPDATE x_cronjobs SET ct_deleted_ts=:time WHERE ct_id_pk=:cronid");
+                        $sql2->bindParam(':cronid', $rowcrons['ct_id_pk']);
+                        $sql2->bindParam(':time', time());
+                        $sql2->execute();
+                        self::WriteCronFile();
+                        self::$ok = TRUE;
+                        return;
+                    }
+                }
+            }
         }
-        if ($timing == "0,5,10,15,20,25,30,35,40,45,50,55 * * * *") {
-            $retval = "Every 5 minutes";
-        }
-        if ($timing == "0,10,20,30,40,50 * * * *") {
-            $retval = "Every 10 minutes";
-        }
-        if ($timing == "0,30 * * * *") {
-            $retval = "Every 30 minutes";
-        }
-        if ($timing == "0 * * * *") {
-            $retval = "Every 1 hour";
-        }
-        if ($timing == "0 0,2,4,6,8,10,12,14,16,18,20,22 * * *") {
-            $retval = "Every 2 hours";
-        }
-        if ($timing == "0 0,8,16 * * *") {
-            $retval = "Every 8 hours";
-        }
-        if ($timing == "0 0,12 * * *") {
-            $retval = "Every 12 hours";
-        }
-        if ($timing == "0 0 * * *") {
-            $retval = "Every day";
-        }
-        if ($timing == "0 0 * * 0") {
-            $retval = "Every week";
-        }
-        if ($timing == "0 0 1 * *") {
-            $retval = "Every month";
-        }
-        return $retval;
+        self::$error = TRUE;
+        return;
     }
 
     static function getResult()

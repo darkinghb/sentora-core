@@ -29,7 +29,6 @@
 class module_controller extends ctrl_module
 {
 
-
     static $ok;
     static $password;
     static $alreadyexists;

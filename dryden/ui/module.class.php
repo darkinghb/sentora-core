@@ -263,7 +263,7 @@ class ui_module {
                     ON ( x_modcats.mc_id_pk = x_modules.mo_category_fk )
                     WHERE x_modules.mo_folder_vc = :module';
 
-        $retval = $zdbh->bindQuery($sql , $bindArray);
+        $retval = $zdbh->bindQuery($sql, $bindArray);
         $moduleRow = $zdbh->returnRow();
 
         return $moduleRow;

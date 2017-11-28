@@ -53,7 +53,7 @@ class module_controller extends ctrl_module
             ':x_htpasswd_sentora_user_id' => self::getCurrentUserId(),
             );
         try {
-            $zdbh->bindQuery( $sqlString, $bindArray );
+            $zdbh->bindQuery($sqlString, $bindArray);
         }
         catch (PDOException $e) {
             self::setFlashMessage('error', 'this protected directory record could not be found to edit.');
@@ -77,7 +77,7 @@ class module_controller extends ctrl_module
             WHERE x_htpasswd_sentora_user_id = :x_htpasswd_sentora_user_id
             AND x_htpasswd_file_deleted IS NULL";
         $bindArray = array( ':x_htpasswd_sentora_user_id' => self::getCurrentUserId() );
-        $zdbh->bindQuery( $sqlString, $bindArray );
+        $zdbh->bindQuery($sqlString, $bindArray);
         $rows = $zdbh->returnRows();
         /** format created */
         foreach($rows as &$row) {
@@ -103,7 +103,7 @@ class module_controller extends ctrl_module
             ':x_htpasswd_user_id' => self::getUserId(),
             ':x_htpasswd_sentora_user_id' => self::getCurrentUserId()
             );
-        $zdbh->bindQuery( $sqlString, $bindArray );
+        $zdbh->bindQuery($sqlString, $bindArray);
         
         return $zdbh->returnRow();
     }
@@ -128,7 +128,7 @@ class module_controller extends ctrl_module
             ':x_htpasswd_file_id' => self::getId(), 
             ':x_htpasswd_sentora_user_id' => self::getCurrentUserId(),     
         );
-        $zdbh->bindQuery( $sqlString, $bindArray );
+        $zdbh->bindQuery($sqlString, $bindArray);
         $rows = $zdbh->returnRows();
         /** format created */
         foreach($rows as &$row) {
@@ -200,7 +200,7 @@ class module_controller extends ctrl_module
             ':x_htpasswd_sentora_user_id' => self::getCurrentUserId(),
         );
         try {
-            $zdbh->bindQuery( $sqlString, $bindArray );
+            $zdbh->bindQuery($sqlString, $bindArray);
         }
         catch (PDOException $exc) {
             $message = ($exc->getCode() === '23000') ? 'Folder already protected.' : 'Error adding to database.';
@@ -242,7 +242,7 @@ class module_controller extends ctrl_module
             ':x_htpasswd_user_created'  => time(),
             ':x_htpasswd_sentora_user_id'  => self::getCurrentUserId(),
         );
-        $zdbh->bindQuery( $sqlString, $bindArray );
+        $zdbh->bindQuery($sqlString, $bindArray);
         return $zdbh->lastInsertId();
     }
 
@@ -274,7 +274,7 @@ class module_controller extends ctrl_module
             ':x_htpasswd_file_id' => $x_htpasswd_file_id,
             ':x_htpasswd_user_id' => $x_htpasswd_user_id,
         );
-        $zdbh->bindQuery( $sqlString, $bindArray );
+        $zdbh->bindQuery($sqlString, $bindArray);
         return $zdbh->lastInsertId();
     }
 
@@ -302,7 +302,7 @@ class module_controller extends ctrl_module
             ':x_htpasswd_file_message' => $fileArray[ 'x_htpasswd_file_message' ],
             ':x_htpasswd_sentora_user_id' => self::getCurrentUserId(),
         );
-        $zdbh->bindQuery( $sqlString, $bindArray );
+        $zdbh->bindQuery($sqlString, $bindArray);
         return $zdbh->returnResult();
     }
 
@@ -323,7 +323,7 @@ class module_controller extends ctrl_module
             ':x_htpasswd_user_password' => $userArray[ 'x_htpasswd_user_password' ],
             ':x_htpasswd_sentora_user_id' => self::getCurrentUserId(),
         );
-        $zdbh->bindQuery( $sqlString, $bindArray );
+        $zdbh->bindQuery($sqlString, $bindArray);
         return $zdbh->returnResult();
     }
 
@@ -347,7 +347,7 @@ class module_controller extends ctrl_module
             ':x_htpasswd_file_id' => $x_htpasswd_file_id,
             ':x_htpasswd_sentora_user_id' => self::getCurrentUserId(),
         );
-        $zdbh->bindQuery( $sqlString, $bindArray );
+        $zdbh->bindQuery($sqlString, $bindArray);
         return $zdbh->returnResult();
     }
 
@@ -369,7 +369,7 @@ class module_controller extends ctrl_module
             ':x_htpasswd_user_id' => $x_htpasswd_user_id,
             ':x_htpasswd_sentora_user_id' => self::getCurrentUserId(),
         );
-        $zdbh->bindQuery( $sqlString, $bindArray );
+        $zdbh->bindQuery($sqlString, $bindArray);
         return $zdbh->returnResult();
     }
 
@@ -394,7 +394,7 @@ class module_controller extends ctrl_module
             ':x_htpasswd_file_id' => $x_htpasswd_file_id,
             ':x_htpasswd_user_id' => $x_htpasswd_user_id
         );
-        $zdbh->bindQuery( $sqlString, $bindArray );
+        $zdbh->bindQuery($sqlString, $bindArray);
         return $zdbh->returnResult();
     }
 

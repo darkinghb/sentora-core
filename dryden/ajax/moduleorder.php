@@ -84,7 +84,7 @@ function UpdateModuleOrder($uid, $order) {
         ':order' => $order,
         ':uid'   => $uid,
     );
-    $zdbh->bindQuery( $sqlString, $bindArray );
+    $zdbh->bindQuery($sqlString, $bindArray);
 
     return $zdbh->returnResult();
 }
