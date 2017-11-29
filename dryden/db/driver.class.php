@@ -162,10 +162,6 @@ class db_driver extends PDO
         $this->_executed = $executed;
     }
 
-    public function queryWithParams($query, $params): PDOStatement
-    {
-
-    }
 
     public function returnRow()
     {

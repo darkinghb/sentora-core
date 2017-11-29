@@ -30,9 +30,9 @@ class ctrl_options {
         $result = $zdbh->returnRow();
         if ($result) {
             return $result['so_value_tx'];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -64,20 +64,20 @@ class ctrl_options {
             );
             if ($zdbh->bindQuery("UPDATE x_settings SET so_value_tx = :value WHERE so_name_vc = :name", $bindArray)) {
                 return true;
-            } else {
-                return false;
             }
-        } else {
-            $bindArray = array(
-                ':name' => $name,
-                ':value' => $value
-            );
-            if ($zdbh->bindQuery("INSERT INTO x_settings (so_name_vc, so_value_tx) VALUES (:name, :value)", $bindArray)) {
-                return true;
-            } else {
-                return false;
-            }
+
+            return false;
         }
+
+        $bindArray = array(
+            ':name' => $name,
+            ':value' => $value
+        );
+        if ($zdbh->bindQuery("INSERT INTO x_settings (so_name_vc, so_value_tx) VALUES (:name, :value)", $bindArray)) {
+            return true;
+        }
+
+        return false;
         runtime_hook::Execute('OnSetSystemOption');
     }
 
@@ -94,12 +94,12 @@ class ctrl_options {
             ':id' => $id,
         );
         $sqlStatment = $zdbh->bindQuery("SELECT * FROM x_accounts WHERE ac_id_pk = :id", $bindArray);
-        $results = $zdbh->returnRow();
-        if ($result) {
-            return $result;
-        } else {
-            return false;
+        $results = $sqlStatment->fetch(2);
+        if ($results) {
+            return $results;
         }
+
+        return false;
     }
 
     /**
@@ -116,19 +116,17 @@ class ctrl_options {
             ':id' => $id,
         );
         $sqlStatment = $zdbh->bindQuery("SELECT * FROM x_accounts WHERE ac_id_pk = :id", $bindArray);
-        $results = $zdbh->returnRow();
+        $results = $sqlStatment->fetch(2);
 
-        if ($result) {
+        if ($results) {
             $packageid = $result['ac_id_pk'];
             $result = $zdbh->query("SELECT * FROM x_packages WHERE pk_id_pk = '$packageid'")->Fetch();
             if ($result) {
                 return $result;
-            } else {
-                return false;
             }
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

@@ -64,7 +64,7 @@ class ctrl_auth
     public static function Authenticate($username, $password, $rememberMe = false, $sessionSecurity = false)
     {
         global $zdbh;
-        $sqlString = 'SELECT * FROM
+        $sqlString = 'SELECT ac_id_pk FROM
                       x_accounts WHERE
                       ac_user_vc = :username AND
                       ac_pass_vc = :password AND
@@ -75,15 +75,12 @@ class ctrl_auth
             ':password' => $password
         );
 
-        $zdbh->bindQuery($sqlString, $bindArray);
-        $row = $zdbh->returnRow();
+        $q = $zdbh->bindQuery($sqlString, $bindArray);
+        $row = $q->fetchColumn();
 
         if ($row) {
-            //Disabled till zpanel 10.0.3
-            //runtime_sessionsecurity::sessionRegen();
-
             self::SetUserSession($row['ac_id_pk'], $sessionSecurity);
-            $zdbh->exec("UPDATE x_accounts SET ac_lastlogon_ts=" . time() . " WHERE ac_id_pk=" . $row['ac_id_pk']);
+            $zdbh->exec("UPDATE x_accounts SET ac_lastlogon_ts=" . time() . " WHERE ac_id_pk=" . $row);
             if ($rememberMe) {
                 setcookie("zUser", $username, time() + 60 * 60 * 24 * 30, "/");
                 setcookie("zPass", $password, time() + 60 * 60 * 24 * 30, "/");
@@ -91,7 +88,7 @@ class ctrl_auth
             }
 
             runtime_hook::Execute('OnGoodUserLogin');
-            return $row['ac_id_pk'];
+            return $row;
         }
 
         runtime_hook::Execute('OnBadUserLogin');

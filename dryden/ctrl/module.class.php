@@ -20,10 +20,9 @@ class ctrl_module
      * Returns the name of the module.
      * @return string
      */
-    public static function getModuleName()
+    public static function getModuleName(): string
     {
-        $module_name = ui_module::GetModuleName();
-        return $module_name;
+        return ui_module::GetModuleName();
     }
 
     /**
@@ -33,8 +32,7 @@ class ctrl_module
      */
     public static function getModuleDesc()
     {
-        $module_desc = ui_language::translate(ui_module::GetModuleDescription());
-        return $module_desc;
+        return ui_language::translate(ui_module::GetModuleDescription());
     }
 
     /**

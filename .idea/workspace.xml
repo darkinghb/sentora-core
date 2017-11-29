@@ -35,9 +35,23 @@
       <file leaf-file-name="randomstring.class.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dryden/runtime/randomstring.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="403">
-              <caret line="111" column="32" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+            <state relative-caret-position="176">
+              <caret line="32" column="29" lean-forward="true" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="groups.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dryden/ctrl/groups.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="341">
+              <caret line="31" column="35" lean-forward="false" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
+              <folding>
+                <marker date="1511904431658" expanded="true" signature="919:1074" ph="SELECT pe_id... x_permissions" />
+                <marker date="1511904431658" expanded="true" signature="1809:1901" ph="SELECT COUNT... x_permissions" />
+                <marker date="1511904431658" expanded="true" signature="2144:2232" ph="INSERT INTO x_permissions... " />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -56,7 +70,7 @@
         <entry file="file://$PROJECT_DIR$/modules/mailboxes/code/controller.ext.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="256">
-              <caret line="367" column="41" lean-forward="true" selection-start-line="367" selection-start-column="41" selection-end-line="367" selection-end-column="41" />
+              <caret line="367" column="41" lean-forward="false" selection-start-line="367" selection-start-column="41" selection-end-line="367" selection-end-column="41" />
               <folding>
                 <marker date="1511905469042" expanded="true" signature="2797:2961" ph="INSERT INTO x_mailboxes... " />
                 <marker date="1511905469042" expanded="true" signature="4024:4127" ph="SELECT count... x_mailboxes" />
@@ -77,36 +91,69 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="module.zpm" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/cron/module.zpm">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="driver.class.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dryden/db/driver.class.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="324">
-              <caret line="126" column="23" lean-forward="true" selection-start-line="126" selection-start-column="23" selection-end-line="126" selection-end-column="23" />
+              <caret line="166" column="5" lean-forward="true" selection-start-line="166" selection-start-column="5" selection-end-line="166" selection-end-column="5" />
               <folding>
-                <marker date="1511905572934" expanded="true" signature="545:1068" ph="..." />
-                <marker date="1511905572934" expanded="true" signature="574:844" ph="{...}" />
-                <marker date="1511905572934" expanded="true" signature="859:987" ph="{...}" />
-                <marker date="1511905572934" expanded="true" signature="1004:1048" ph="{...}" />
+                <marker date="1511911315982" expanded="true" signature="545:1068" ph="..." />
+                <marker date="1511911315982" expanded="true" signature="574:844" ph="{...}" />
+                <marker date="1511911315982" expanded="true" signature="859:987" ph="{...}" />
+                <marker date="1511911315982" expanded="true" signature="1004:1048" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="controller.ext.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="auth.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dryden/ctrl/auth.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="377">
+              <caret line="169" column="63" lean-forward="true" selection-start-line="169" selection-start-column="63" selection-end-line="169" selection-end-column="63" />
+              <folding>
+                <marker date="1511911357241" expanded="true" signature="1434:1564" ph="SELECT ac_us... x_accounts" />
+                <marker date="1511911357241" expanded="true" signature="2706:2951" ph="SELECT * FRO... x_accounts" />
+                <marker date="1511911357241" expanded="true" signature="3262:3330" ph="UPDATE x_acc... " />
+                <marker date="1511911357241" expanded="true" signature="3262:3337" ph="UPDATE x_acc... " />
+                <marker date="1511911357241" expanded="true" signature="3262:3339" ph="UPDATE x_acc... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="module.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dryden/ctrl/module.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="386">
+              <caret line="61" column="5" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="options.class.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/dryden/ctrl/options.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="341">
+              <caret line="114" column="27" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
+              <folding>
+                <marker date="1511911695514" expanded="true" signature="967:1026" ph="SELECT so_va... x_settings" />
+                <marker date="1511911695514" expanded="true" signature="2426:2493" ph="UPDATE x_set... " />
+                <marker date="1511911695514" expanded="true" signature="2722:2793" ph="INSERT INTO x_settings... " />
+                <marker date="1511911695514" expanded="true" signature="3464:3509" ph="SELECT * FRO... x_accounts" />
+                <marker date="1511911695514" expanded="true" signature="4188:4233" ph="SELECT * FRO... x_accounts" />
+                <marker date="1511911695514" expanded="true" signature="4399:4453" ph="SELECT * FRO... x_packages" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="controller.ext.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/forwarders/code/controller.ext.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="106" column="34" lean-forward="false" selection-start-line="106" selection-start-column="20" selection-end-line="106" selection-end-column="34" />
+            <state relative-caret-position="272">
+              <caret line="124" column="25" lean-forward="true" selection-start-line="124" selection-start-column="25" selection-end-line="124" selection-end-column="25" />
               <folding>
                 <marker date="1511737321000" expanded="true" signature="1594:1697" ph="SELECT * FRO... x_forwarders" />
                 <marker date="1511737321000" expanded="true" signature="3267:3339" ph="SELECT * FRO... x_forwarders" />
@@ -120,73 +167,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="groups.class.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dryden/ctrl/groups.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="31" column="35" lean-forward="false" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
-              <folding>
-                <marker date="1511904431658" expanded="true" signature="919:1074" ph="SELECT pe_id... x_permissions" />
-                <marker date="1511904431658" expanded="true" signature="1809:1901" ph="SELECT COUNT... x_permissions" />
-                <marker date="1511904431658" expanded="true" signature="2144:2232" ph="INSERT INTO x_permissions... " />
-                <marker date="1511904431658" expanded="true" signature="2233:2680" ph="INSERT INTO x_permissions... " />
-                <marker date="1511904431658" expanded="true" signature="2919:2975" ph="DELETE FROM " />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="controller.ext.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/aliases/code/controller.ext.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="288" column="34" lean-forward="false" selection-start-line="288" selection-start-column="34" selection-end-line="288" selection-end-column="34" />
-              <folding>
-                <marker date="1511904710287" expanded="true" signature="1562:1664" ph="SELECT * FRO... x_mailboxes" />
-                <marker date="1511904710287" expanded="true" signature="3804:4030" ph="INSERT INTO x_aliases... " />
-                <marker date="1511904710287" expanded="true" signature="4802:4886" ph="SELECT * FRO... x_mailboxes" />
-                <marker date="1511904710287" expanded="true" signature="5156:5241" ph="SELECT * FRO... x_forwarders" />
-                <marker date="1511904710287" expanded="true" signature="5511:5600" ph="SELECT * FRO... x_forwarders" />
-                <marker date="1511904710287" expanded="true" signature="5870:5954" ph="SELECT * FRO... x_distlists" />
-                <marker date="1511904710287" expanded="true" signature="6224:6306" ph="SELECT * FRO... x_aliases" />
-                <marker date="1511904710287" expanded="true" signature="7226:7342" ph="SELECT * FRO... x_vhosts" />
-                <marker date="1511904710287" expanded="true" signature="8735:8835" ph="SELECT * FRO... x_aliases" />
-                <marker date="1511904710287" expanded="true" signature="10539:10598" ph="UPDATE x_ali... " />
-                <marker date="1511904710287" expanded="true" signature="11320:11389" ph="SELECT * FRO... x_aliases" />
-                <marker date="1511904710287" expanded="true" signature="13341:13407" ph="SELECT mbs_v... x_mail_settings" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="controller.ext.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/cron/code/controller.ext.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="180" column="29" lean-forward="false" selection-start-line="180" selection-start-column="29" selection-end-line="180" selection-end-column="29" />
-              <folding>
-                <marker date="1511903788680" expanded="true" signature="1792:1873" ph="SELECT COUNT... x_cronjobs" />
-                <marker date="1511903788680" expanded="true" signature="2105:2179" ph="SELECT * FRO... x_cronjobs" />
-                <marker date="1511903788680" expanded="true" signature="5693:5699" ph=" " />
-                <marker date="1511903788680" expanded="true" signature="8647:8828" ph="INSERT INTO x_cronjobs... " />
-                <marker date="1511903788680" expanded="true" signature="8814:8828" ph="INSERT INTO x_cronjobs... " />
-                <marker date="1511903788680" expanded="true" signature="11106:11214" ph="SELECT COUNT... x_cronjobs" />
-                <marker date="1511903788680" expanded="true" signature="11786:11838" ph="SELECT * FRO... x_cronjobs" />
-                <marker date="1511903788680" expanded="true" signature="14685:14758" ph="SELECT * FRO... x_accounts" />
-                <marker date="1511903788680" expanded="true" signature="16295:16376" ph="SELECT COUNT... x_cronjobs" />
-                <marker date="1511903788680" expanded="true" signature="16606:16680" ph="SELECT * FRO... x_cronjobs" />
-                <marker date="1511903788680" expanded="true" signature="17030:17094" ph="UPDATE x_cro... " />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>$attributes</find>
-      <find>bool)</find>
       <find>$</find>
       <find>findIP()</find>
       <find>HTTP_USER_AGENT</find>
@@ -209,12 +193,14 @@
       <find>ListCurrentMailboxes</find>
       <find>$uid =</find>
       <find>mailbox</find>
-      <find>runtime_sessionsecurity</find>
       <find>$currentuser = ctrl_users::GetUserDetail()</find>
       <find>SELECT *</find>
       <find>fetch(</find>
-      <find>fetch()</find>
       <find>bindParams</find>
+      <find>fetch()</find>
+      <find>runtime_sessionsecurity</find>
+      <find>if ($hash</find>
+      <find>select *</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;/FilesMatch&gt;'.  fs_filehandler::NewLine() . '&lt;/IfModule&gt;' . fs_filehandler::NewLine();</replace>
@@ -264,10 +250,8 @@
         <option value="$PROJECT_DIR$/modules/forwarders/code/controller.ext.php" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/inc/dbc.inc.php" />
-        <option value="$PROJECT_DIR$/dryden/ctrl/auth.class.php" />
         <option value="$PROJECT_DIR$/modules/ELFileManager/app/elfinder.php" />
         <option value="$PROJECT_DIR$/dryden/fs/director.class.php" />
-        <option value="$PROJECT_DIR$/dryden/runtime/randomstring.class.php" />
         <option value="$PROJECT_DIR$/modules/ftp_management/code/controller.ext.php" />
         <option value="$PROJECT_DIR$/modules/cron/code/controller.ext.php" />
         <option value="$PROJECT_DIR$/dryden/ctrl/groups.class.php" />
@@ -275,6 +259,10 @@
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/modules/mailboxes/code/controller.ext.php" />
         <option value="$PROJECT_DIR$/dryden/db/driver.class.php" />
+        <option value="$PROJECT_DIR$/dryden/ctrl/auth.class.php" />
+        <option value="$PROJECT_DIR$/dryden/ctrl/module.class.php" />
+        <option value="$PROJECT_DIR$/dryden/ctrl/options.class.php" />
+        <option value="$PROJECT_DIR$/dryden/runtime/randomstring.class.php" />
       </list>
     </option>
   </component>
@@ -340,6 +328,12 @@
               <item name="sentora-core" type="b2602c69:ProjectViewProjectNode" />
               <item name="sentora-core" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="dryden" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="sentora-core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sentora-core" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="dryden" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="ctrl" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="sentora-core" type="b2602c69:ProjectViewProjectNode" />
@@ -415,12 +409,12 @@
       <updated>1511727907248</updated>
       <workItem from="1511727909154" duration="80000" />
       <workItem from="1511728019219" duration="19730000" />
-      <workItem from="1511893328622" duration="7497000" />
+      <workItem from="1511893328622" duration="10344000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27307000" />
+    <option name="totallyTimeSpent" value="30154000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
@@ -458,29 +452,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dryden/ctrl/users.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="28" column="46" lean-forward="false" selection-start-line="28" selection-start-column="19" selection-end-line="28" selection-end-column="46" />
-          <folding>
-            <marker date="1511795187432" expanded="true" signature="1035:1431" ph="SELECT * FRO... x_accounts" />
-            <marker date="1511795187432" expanded="true" signature="4341:4449" ph="SELECT COUNT... x_vhosts" />
-            <marker date="1511795187432" expanded="true" signature="4697:4805" ph="SELECT COUNT... x_vhosts" />
-            <marker date="1511795187432" expanded="true" signature="5056:5164" ph="SELECT COUNT... x_vhosts" />
-            <marker date="1511795187432" expanded="true" signature="5411:5505" ph="SELECT COUNT... x_mailboxes" />
-            <marker date="1511795187432" expanded="true" signature="5753:5848" ph="SELECT COUNT... x_forwarders" />
-            <marker date="1511795187432" expanded="true" signature="6095:6189" ph="SELECT COUNT... x_distlists" />
-            <marker date="1511795187432" expanded="true" signature="6438:6534" ph="SELECT COUNT... x_ftpaccounts" />
-            <marker date="1511795187432" expanded="true" signature="6777:6877" ph="SELECT COUNT... x_mysql_databases" />
-            <marker date="1511795187432" expanded="true" signature="7124:7234" ph="SELECT bd_di... x_bandwidth" />
-            <marker date="1511795187432" expanded="true" signature="7490:7601" ph="SELECT bd_tr... x_bandwidth" />
-            <marker date="1511795187432" expanded="true" signature="8134:8236" ph="SELECT COUNT... x_vhosts" />
-            <marker date="1511795187432" expanded="true" signature="8998:9096" ph="SELECT COUNT... x_accounts" />
-            <marker date="1511795187432" expanded="true" signature="9695:9758" ph="SELECT COUNT... x_accounts" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/7abb1519-7668-4522-a3e9-4eb402ac2fba/console.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -499,21 +470,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="35" column="15" lean-forward="false" selection-start-line="35" selection-start-column="15" selection-end-line="35" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dryden/ctrl/options.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="26" column="56" lean-forward="false" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="56" />
-          <folding>
-            <marker date="1511727483347" expanded="true" signature="967:1026" ph="SELECT so_va... x_settings" />
-            <marker date="1511727483347" expanded="true" signature="2446:2513" ph="UPDATE x_set... " />
-            <marker date="1511727483347" expanded="true" signature="2792:2863" ph="INSERT INTO x_settings... " />
-            <marker date="1511727483347" expanded="true" signature="3580:3625" ph="SELECT * FRO... x_accounts" />
-            <marker date="1511727483347" expanded="true" signature="4318:4363" ph="SELECT * FRO... x_accounts" />
-            <marker date="1511727483347" expanded="true" signature="4524:4578" ph="SELECT * FRO... x_packages" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -870,20 +826,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dryden/ctrl/auth.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="179" column="18" lean-forward="true" selection-start-line="179" selection-start-column="18" selection-end-line="179" selection-end-column="18" />
-          <folding>
-            <marker date="1511897448278" expanded="true" signature="1434:1564" ph="SELECT ac_us... x_accounts" />
-            <marker date="1511897448278" expanded="true" signature="2706:2944" ph="SELECT * FRO... x_accounts" />
-            <marker date="1511897448278" expanded="true" signature="3349:3417" ph="UPDATE x_acc... " />
-            <marker date="1511897448278" expanded="true" signature="3349:3437" ph="UPDATE x_acc... " />
-            <marker date="1511897448278" expanded="true" signature="3349:3438" ph="UPDATE x_acc... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/inc/init.inc.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -984,20 +926,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dryden/ctrl/groups.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="31" column="35" lean-forward="false" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
-          <folding>
-            <marker date="1511904431658" expanded="true" signature="919:1074" ph="SELECT pe_id... x_permissions" />
-            <marker date="1511904431658" expanded="true" signature="1809:1901" ph="SELECT COUNT... x_permissions" />
-            <marker date="1511904431658" expanded="true" signature="2144:2232" ph="INSERT INTO x_permissions... " />
-            <marker date="1511904431658" expanded="true" signature="2233:2680" ph="INSERT INTO x_permissions... " />
-            <marker date="1511904431658" expanded="true" signature="2919:2975" ph="DELETE FROM " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/aliases/code/controller.ext.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="273">
@@ -1027,26 +955,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dryden/runtime/randomstring.class.php">
+    <entry file="file://$PROJECT_DIR$/modules/forwarders/code/controller.ext.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="111" column="32" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="272">
+          <caret line="124" column="25" lean-forward="true" selection-start-line="124" selection-start-column="25" selection-end-line="124" selection-end-column="25" />
+          <folding>
+            <marker date="1511737321000" expanded="true" signature="1594:1697" ph="SELECT * FRO... x_forwarders" />
+            <marker date="1511737321000" expanded="true" signature="3267:3339" ph="SELECT * FRO... x_forwarders" />
+            <marker date="1511737321000" expanded="true" signature="4285:4387" ph="SELECT * FRO... x_mailboxes" />
+            <marker date="1511737321000" expanded="true" signature="5697:5981" ph="INSERT INTO x_forwarders... " />
+            <marker date="1511737321000" expanded="true" signature="6730:6781" ph="SELECT * FRO... x_forwarders" />
+            <marker date="1511737321000" expanded="true" signature="7239:7307" ph="UPDATE x_for... " />
+            <marker date="1511737321000" expanded="true" signature="11932:11998" ph="SELECT mbs_v... x_mail_settings" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
+    <entry file="file://$PROJECT_DIR$/dryden/db/driver.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="14" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="14" selection-end-column="1" />
-          <folding />
+        <state relative-caret-position="324">
+          <caret line="166" column="5" lean-forward="true" selection-start-line="166" selection-start-column="5" selection-end-line="166" selection-end-column="5" />
+          <folding>
+            <marker date="1511911315982" expanded="true" signature="545:1068" ph="..." />
+            <marker date="1511911315982" expanded="true" signature="574:844" ph="{...}" />
+            <marker date="1511911315982" expanded="true" signature="859:987" ph="{...}" />
+            <marker date="1511911315982" expanded="true" signature="1004:1048" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/mailboxes/code/controller.ext.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="256">
-          <caret line="367" column="41" lean-forward="true" selection-start-line="367" selection-start-column="41" selection-end-line="367" selection-end-column="41" />
+          <caret line="367" column="41" lean-forward="false" selection-start-line="367" selection-start-column="41" selection-end-line="367" selection-end-column="41" />
           <folding>
             <marker date="1511905469042" expanded="true" signature="2797:2961" ph="INSERT INTO x_mailboxes... " />
             <marker date="1511905469042" expanded="true" signature="4024:4127" ph="SELECT count... x_mailboxes" />
@@ -1066,31 +1007,67 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dryden/db/driver.class.php">
+    <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="126" column="23" lean-forward="true" selection-start-line="126" selection-start-column="23" selection-end-line="126" selection-end-column="23" />
+        <state relative-caret-position="136">
+          <caret line="8" column="14" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="14" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dryden/runtime/randomstring.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="32" column="29" lean-forward="true" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dryden/ctrl/groups.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="341">
+          <caret line="31" column="35" lean-forward="false" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
           <folding>
-            <marker date="1511905572934" expanded="true" signature="545:1068" ph="..." />
-            <marker date="1511905572934" expanded="true" signature="574:844" ph="{...}" />
-            <marker date="1511905572934" expanded="true" signature="859:987" ph="{...}" />
-            <marker date="1511905572934" expanded="true" signature="1004:1048" ph="{...}" />
+            <marker date="1511904431658" expanded="true" signature="919:1074" ph="SELECT pe_id... x_permissions" />
+            <marker date="1511904431658" expanded="true" signature="1809:1901" ph="SELECT COUNT... x_permissions" />
+            <marker date="1511904431658" expanded="true" signature="2144:2232" ph="INSERT INTO x_permissions... " />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/forwarders/code/controller.ext.php">
+    <entry file="file://$PROJECT_DIR$/dryden/ctrl/auth.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="106" column="34" lean-forward="false" selection-start-line="106" selection-start-column="20" selection-end-line="106" selection-end-column="34" />
+        <state relative-caret-position="377">
+          <caret line="169" column="63" lean-forward="true" selection-start-line="169" selection-start-column="63" selection-end-line="169" selection-end-column="63" />
           <folding>
-            <marker date="1511737321000" expanded="true" signature="1594:1697" ph="SELECT * FRO... x_forwarders" />
-            <marker date="1511737321000" expanded="true" signature="3267:3339" ph="SELECT * FRO... x_forwarders" />
-            <marker date="1511737321000" expanded="true" signature="4285:4387" ph="SELECT * FRO... x_mailboxes" />
-            <marker date="1511737321000" expanded="true" signature="5697:5981" ph="INSERT INTO x_forwarders... " />
-            <marker date="1511737321000" expanded="true" signature="6730:6781" ph="SELECT * FRO... x_forwarders" />
-            <marker date="1511737321000" expanded="true" signature="7239:7307" ph="UPDATE x_for... " />
-            <marker date="1511737321000" expanded="true" signature="11932:11998" ph="SELECT mbs_v... x_mail_settings" />
+            <marker date="1511911357241" expanded="true" signature="1434:1564" ph="SELECT ac_us... x_accounts" />
+            <marker date="1511911357241" expanded="true" signature="2706:2951" ph="SELECT * FRO... x_accounts" />
+            <marker date="1511911357241" expanded="true" signature="3262:3330" ph="UPDATE x_acc... " />
+            <marker date="1511911357241" expanded="true" signature="3262:3337" ph="UPDATE x_acc... " />
+            <marker date="1511911357241" expanded="true" signature="3262:3339" ph="UPDATE x_acc... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dryden/ctrl/module.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="386">
+          <caret line="61" column="5" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dryden/ctrl/options.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="341">
+          <caret line="114" column="27" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
+          <folding>
+            <marker date="1511911695514" expanded="true" signature="967:1026" ph="SELECT so_va... x_settings" />
+            <marker date="1511911695514" expanded="true" signature="2426:2493" ph="UPDATE x_set... " />
+            <marker date="1511911695514" expanded="true" signature="2722:2793" ph="INSERT INTO x_settings... " />
+            <marker date="1511911695514" expanded="true" signature="3464:3509" ph="SELECT * FRO... x_accounts" />
+            <marker date="1511911695514" expanded="true" signature="4188:4233" ph="SELECT * FRO... x_accounts" />
+            <marker date="1511911695514" expanded="true" signature="4399:4453" ph="SELECT * FRO... x_packages" />
           </folding>
         </state>
       </provider>

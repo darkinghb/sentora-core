@@ -1,0 +1,11 @@
+<updateserver>
+<latestversion>106</latestversion>
+<downloadurl>http://zppy-repo.mach-hosting.com/repo/Cer_manager.zpp</downloadurl>
+<desc>Manage SSL certificates.</desc>
+<updatedesc>Converted to Sentora. Several bug fixes.</updatedesc>
+<ostype>all</ostype>
+<senversion>1.0.1:1.0.2:1.0.3</senversion>
+<authorname>Diablo925</authorname>
+<authoremail>carsten@alio.dk</authoremail>
+<authorurl>http://Alio.dk/</authorurl>
+</updateserver>
