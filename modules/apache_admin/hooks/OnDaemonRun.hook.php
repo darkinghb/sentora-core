@@ -331,7 +331,7 @@ function WriteVhostConfigFile()
 
                 $line .= 'DocumentRoot ' . $RootDir . fs_filehandler::NewLine();
                 // Get Package openbasedir and suhosin enabled options
-                if (ctrl_options::GetSystemOption('use_openbase') == "true") {
+                /*if (ctrl_options::GetSystemOption('use_openbase') == "true") {
                     if ($rowvhost['vh_obasedir_in'] <> 0) {
                         $line .= 'php_admin_value open_basedir "'
                             . ctrl_options::GetSystemOption('hosted_dir') . $vhostuser['username'] . "/public_html"
@@ -343,7 +343,7 @@ function WriteVhostConfigFile()
                     if ($rowvhost['vh_suhosin_in'] <> 0) {
                         $line .= ctrl_options::GetSystemOption('suhosin_value') . fs_filehandler::NewLine();
                     }
-                }
+                }*/
                 // Logs
                 if (!is_dir(ctrl_options::GetSystemOption('log_dir') . "domains/" . $vhostuser['username'] . "/")) {
                     fs_director::CreateDirectory(ctrl_options::GetSystemOption('log_dir') . "domains/" . $vhostuser['username'] . "/");
