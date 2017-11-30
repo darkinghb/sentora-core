@@ -245,9 +245,7 @@ class fs_director
      */
     public static function IsValidEmail($email)
     {
-        if (!preg_match('/^[a-z0-9]+([_\\.-][a-z0-9]+)*@([a-z0-9]+([\.-][a-z0-9]+)*)+\\.[a-z]{2,}$/i', $email))
-            return false;
-        return true;
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
     /**
@@ -258,17 +256,7 @@ class fs_director
      */
     public static function IsValidDomainName($domainname)
     {
-        if (stristr($domainname, '.')) {
-            $part = explode(".", $domainname);
-            foreach ($part as $check) {
-                if (!preg_match('/^[a-z\d][a-z\d-]{0,62}$/i', $check) || preg_match('/-$/', $check)) {
-                    return false;
-                }
-            }
-        } else {
-            return false;
-        }
-        return true;
+        return filter_var($domainname, FILTER_VALIDATE_DOMAIN);
     }
 
     /**
@@ -371,9 +359,9 @@ class fs_director
             }
             closedir($handle);
             return $size;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

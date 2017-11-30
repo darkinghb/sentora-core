@@ -2383,19 +2383,24 @@ abstract class elFinderVolumeDriver {
 	 * @return bool
 	 * @author Dmitry (dio) Levashov
 	 **/
-	protected function nameAccepted($name) {
-		if ($this->nameValidator) {
-			if (is_callable($this->nameValidator)) {
-				$res = call_user_func($this->nameValidator, $name);
-				return $res;
-			}
-			if (preg_match($this->nameValidator, '') !== false) {
-				return preg_match($this->nameValidator, $name);
-			}
-		}
-		return true;
-	}
-	
+
+    protected function nameAccepted($name, $isDir = false) {
+        if (json_encode($name)===false) {
+            return false;
+        }
+        $nameValidator = $isDir? $this->dirnameValidator : $this->nameValidator;
+        if ($nameValidator) {
+            if (is_callable($nameValidator)) {
+                $res = call_user_func($nameValidator, $name);
+                return $res;
+            }
+            if (preg_match($nameValidator, '') !== false) {
+                return preg_match($nameValidator, $name);
+            }
+        }
+        return true;
+    }
+
 	/**
 	 * Return new unique name based on file name and suffix
 	 *

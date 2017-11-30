@@ -322,9 +322,9 @@ class module_controller extends ctrl_module
         if (self::ExecuteCreateFTP($currentuser['userid'], $formvars['inFTPUsername'], $formvars['inPassword'], $formvars['inDestination'], $formvars['inDomainDestination'], $formvars['inAccess'], $formvars['inAutoHome'])) {
             self::$ok = true;
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     static function doDeleteFTP()

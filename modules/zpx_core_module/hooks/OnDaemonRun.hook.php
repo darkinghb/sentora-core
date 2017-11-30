@@ -5,8 +5,8 @@ global $zdbh;
 /*
  * Calculate the home directory size for each 'active' user account on the server.
  */
-$userssql = $zdbh->query("SELECT ac_id_pk, ac_user_vc FROM x_accounts WHERE ac_deleted_ts IS NULL");
-echo fs_filehandler::NewLine() . "START Calculating disk Usage for all client accounts.." . fs_filehandler::NewLine();
+$userssql = $zdbh->query('SELECT ac_id_pk, ac_user_vc FROM x_accounts WHERE ac_deleted_ts IS NULL');
+echo fs_filehandler::NewLine() . 'START Calculating disk Usage for all client accounts..' . fs_filehandler::NewLine();
 while ($userdir = $userssql->fetch(2)) {
     $homedirectory = ctrl_options::GetSystemOption('hosted_dir') . $userdir['ac_user_vc'];
     if (fs_director::CheckFolderExists($homedirectory)) {
@@ -15,7 +15,7 @@ while ($userdir = $userssql->fetch(2)) {
         $size = 0;
     }
     $currentuser = ctrl_users::GetUserDetail($userdir['ac_id_pk']);
-    $numrows = $zdbh->prepare("SELECT COUNT(*) AS total FROM x_bandwidth WHERE bd_month_in = :date AND bd_acc_fk = :ac_id_pk");
+    $numrows = $zdbh->prepare("SELECT COUNT(bd_month_in) AS total FROM x_bandwidth WHERE bd_month_in = :date AND bd_acc_fk = :ac_id_pk");
     $date = date("Ym");
     $numrows->bindParam(':date', $date);
     $numrows->bindParam(':ac_id_pk', $userdir['ac_id_pk']);
@@ -35,12 +35,12 @@ while ($userdir = $userssql->fetch(2)) {
     $updatesql->bindParam(':ac_id_pk', $userdir['ac_id_pk']);
     $updatesql->execute();
 
-    $numrows = $zdbh->prepare("SELECT * FROM x_bandwidth WHERE bd_month_in = :date AND bd_acc_fk = :ac_id_pk");
+    $numrows = $zdbh->prepare("SELECT bd_diskamount_bi FROM x_bandwidth WHERE bd_month_in = :date AND bd_acc_fk = :ac_id_pk");
     $date = date("Ym");
     $numrows->bindParam(':date', $date);
     $numrows->bindParam(':ac_id_pk', $userdir['ac_id_pk']);
     $numrows->execute();
-    $checksize = $numrows->fetch();
+    $checksize = $numrows->fetch(2);
 
     if ($checksize['bd_diskamount_bi'] > $currentuser['diskquota']) {
         $updatesql = $zdbh->prepare("UPDATE x_bandwidth SET bd_diskover_in = 1 WHERE bd_acc_fk =:ac_id_pk");
@@ -49,7 +49,7 @@ while ($userdir = $userssql->fetch(2)) {
     } else {
         $updatesql = $zdbh->prepare("UPDATE x_bandwidth SET bd_diskover_in = 0 WHERE bd_acc_fk =:ac_id_pk");
         $updatesql->bindParam(':ac_id_pk', $userdir['ac_id_pk']);
-        $updatesql->execute();
+        $updatesql->execute(2);
     }
 
 
@@ -61,7 +61,7 @@ echo "END Calculating disk usage" . fs_filehandler::NewLine();
 /*
  * Calculate the bandwidth used for each user.
  */
-$checksql = $zdbh->query("SELECT COUNT(*) AS total FROM x_vhosts WHERE vh_deleted_ts IS NULL")->fetch();
+$checksql = $zdbh->query("SELECT COUNT(vh_deleted_ts) AS total FROM x_vhosts WHERE vh_deleted_ts IS NULL")->fetch();
 echo fs_filehandler::NewLine() . "START Calculating bandwidth usage for all client accounts.." . fs_filehandler::NewLine();
 if ($checksql['total'] > 0) {
     $domainssql = $zdbh->query("SELECT vh_acc_fk, vh_name_vc FROM x_vhosts WHERE vh_deleted_ts IS NULL");
@@ -91,21 +91,17 @@ if ($checksql['total'] > 0) {
         } else {
             echo "No bandwidth used, skipping!" . fs_filehandler::NewLine();
         }
-        $numrows = $zdbh->prepare("SELECT * FROM x_bandwidth WHERE bd_month_in = :date AND bd_acc_fk = :vh_acc_fk");
+        $numrows = $zdbh->prepare("SELECT bd_transamount_bi FROM x_bandwidth WHERE bd_month_in = :date AND bd_acc_fk = :vh_acc_fk");
         $date = date("Ym");
         $numrows->bindParam(':date', $date);
         $numrows->bindParam(':vh_acc_fk', $domain['vh_acc_fk']);
         $numrows->execute();
-        $checksize = $numrows->fetch();
+        $checksize = $numrows->fetch(2);
 
         if ($checksize['bd_transamount_bi'] > $domainowner['bandwidthquota']) {
-            $updatesql = $zdbh->prepare("UPDATE x_bandwidth SET bd_transover_in = 1 WHERE bd_acc_fk = :vh_acc_fk");
-            $updatesql->bindParam(':vh_acc_fk', $domain['vh_acc_fk']);
-            $updatesql->execute();
+            $updatesql = $zdbh->exec("UPDATE x_bandwidth SET bd_transover_in = 1 WHERE bd_acc_fk = '{$domain['vh_acc_fk']}'");
         } else {
-            $updatesql = $zdbh->prepare("UPDATE x_bandwidth SET bd_transover_in = 0 WHERE bd_acc_fk =:vh_acc_fk");
-            $updatesql->bindParam(':vh_acc_fk', $domain['vh_acc_fk']);
-            $updatesql->execute();
+            $updatesql = $zdbh->exec("UPDATE x_bandwidth SET bd_transover_in = 0 WHERE bd_acc_fk = '{$domain['vh_acc_fk']}'");
         }
     }
 }

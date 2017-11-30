@@ -26,13 +26,8 @@ class ctrl_options {
         global $zdbh;
         $sqlString = "SELECT so_value_tx FROM x_settings WHERE so_name_vc = :name";
         $bindArray = array(':name' => $name);
-        $zdbh->bindQuery($sqlString, $bindArray);
-        $result = $zdbh->returnRow();
-        if ($result) {
-            return $result['so_value_tx'];
-        }
-
-        return false;
+        $q = $zdbh->bindQuery($sqlString, $bindArray);
+        return $q->fetchColumn();
     }
 
     /**

@@ -1,7 +1,5 @@
 <?php
-
-error_reporting(0); // Set E_ALL for debuging
-
+error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE | E_ALL);
 include_once __DIR__ .DIRECTORY_SEPARATOR.'elFinderConnector.class.php';
 include_once __DIR__ .DIRECTORY_SEPARATOR.'elFinder.class.php';
 include_once __DIR__ .DIRECTORY_SEPARATOR.'elFinderVolumeDriver.class.php';
