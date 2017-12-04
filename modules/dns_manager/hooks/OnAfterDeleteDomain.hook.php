@@ -17,7 +17,7 @@ function DeleteDNSRecordsForDeletedDomain() {
     }
     $ids = implode(',', $deleteddomains);
     $zdbh->exec("DELETE FROM x_vhosts WHERE vh_id_pk IN ($ids)");
-    
+
     foreach ($deleteddomains as $deleteddomain) {
         $numrows = $zdbh->prepare("SELECT dn_vhost_fk FROM x_dns WHERE dn_vhost_fk=:deleteddomain AND dn_deleted_ts IS NULL");
         $numrows->bindParam(':deleteddomain', $deleteddomain);

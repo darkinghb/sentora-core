@@ -846,14 +846,30 @@ if [[ "$OS" = "CentOs" ]]; then
     PHP_INI_PATH="/etc/php.ini"
     PHP_EXT_PATH="/etc/php.d"
 elif [[ "$OS" = "Ubuntu" ]]; then
-    $PACKAGE_INSTALLER libapache2-mod-php5 php5-common php5-cli php5-mysql php5-gd php5-mcrypt php5-curl php-pear php5-imap php5-xmlrpc php5-xsl php5-intl
-    if [ "$VER" = "14.04" ]; then
-        php5enmod mcrypt  # missing in the package for Ubuntu 14!
-    else
-        $PACKAGE_INSTALLER php5-suhosin
-    fi
-    PHP_INI_PATH="/etc/php5/apache2/php.ini"
+    apt-get update
+    $PACKAGE_INSTALLER software-properties-common
+    add-apt-repository ppa:ondrej/php
+#    $PACKAGE_INSTALLER  php7.1 libapache2-mod-php7.1 php5-common php5-cli php5-mysql php5-gd php5-mcrypt php5-curl php-pear php5-imap php5-xmlrpc php5-xsl php5-intl
+    $PACKAGE_INSTALLER libapache2-mod-fastcgi php5.6-fpm php5.6 php5.6-xsl php5.6-xmlrpc php5.6-dev php5.6-imap php5.6-pear php5.6-common php5.6-mcrypt php5.6-mbstring php5.6-mysql php5.6-zip php5.6-gd php5.6-curl php5.6-xml php7.1-fpm libapache2-mod-fastcgi php7.1-fpm php7.1 php7.1-dev php7.1-mbstring php7.1-mysql php7.1-zip php7.1-gd php7.1-xml php7.1-curl php7.1-intl php7.1-json php7.1-mcrypt php7.1-xsl php7.1-xmlrpc php7.1-imap php7.1-pear php7.1-common
+
+    a2dismod mpm_prefork
+    a2dismod php7.1 php5.6 mpm_prefork
+    a2enmod actions fastcgi alias mpm_worker
+    a2enmod actions
+    a2enmod fastcgi
+    a2enmod env
+    a2enmod proxy proxy_fcgi setenvif
+    a2enconf php7.1-fpm
+
+    PHP_INI_PATH="/etc/php/7.1/fpm/php.ini"
 fi
+
+wget https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_amd64.deb
+sudo dpkg -i mod-pagespeed-*.deb
+apt-get -f install
+rm mod-pagespeed-*.deb
+
+
 # Setup php upload dir
 mkdir -p $PANEL_DATA/temp
 chmod 1777 $PANEL_DATA/temp/
@@ -885,24 +901,41 @@ sed -i "s|expose_php = On|expose_php = Off|" $PHP_INI_PATH
 if [[ "$OS" = "CentOs" || ( "$OS" = "Ubuntu" && "$VER" = "14.04") ]] ; then
     echo -e "\n# Building suhosin"
     if [[ "$OS" = "Ubuntu" ]]; then
-        $PACKAGE_INSTALLER php5-dev
+        $PACKAGE_INSTALLER php7.1-dev php5.6-dev git
     fi
-    SUHOSIN_VERSION="0.9.37.1"
-    wget -nv -O suhosin.zip https://github.com/stefanesser/suhosin/archive/$SUHOSIN_VERSION.zip
+    SUHOSIN_VERSION="0.9.38"
+    wget -nv -O suhosin.zip https://download.suhosin.org/suhosin-0.9.38.tar.gz
     unzip -q suhosin.zip
     rm -f suhosin.zip
-    cd suhosin-$SUHOSIN_VERSION
-    phpize &> /dev/null
-    ./configure &> /dev/null
+    cd suhosin-0.9.38
+    phpize5.6 &> /dev/null
+    ./configure --with-php-config=/usr/bin/php-config5.6 &> /dev/null
     make &> /dev/null
     make install 
     cd ..
-    rm -rf suhosin-$SUHOSIN_VERSION
-    if [[ "$OS" = "CentOs" ]]; then 
-        echo 'extension=suhosin.so' > $PHP_EXT_PATH/suhosin.ini
-    elif [[ "$OS" = "Ubuntu" ]]; then
-        sed -i 'N;/default extension directory./a\extension=suhosin.so' $PHP_INI_PATH
-    fi	
+    rm -rf suhosin-0.9.38
+    echo 'extension=suhosin.so' > /etc/php/5.6/fpm/conf.d/suhosin.ini
+
+    cd /tmp/
+    git clone https://github.com/mk-j/PHP_diseval_extension/
+    cd PHP_diseval_extension/source/
+    ./configure
+    phpize &> /dev/null
+    make &> /dev/null
+    make install
+    echo 'extension=diseval.so' > /etc/php/7.1/fpm/conf.d/diseval.ini
+    echo 'extension=diseval.so' > /etc/php/7.1/mods-available/diseval.ini
+    cd ..
+    rm -rf PHP_diseval_extension
+
+    git clone https://github.com/sektioneins/suhosin7
+    cd suhosin7
+    phpize
+    ./configure
+    make
+    make install
+    echo 'extension=suhosin.so' > /etc/php/7.1/fpm/conf.d/suhosin.ini
+
 fi
 
 # Register apache(+php) service for autostart and start it
