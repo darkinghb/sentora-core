@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Supported Operating Systems: CentOS 6.*/7.* Minimal, Ubuntu server 12.04/14.04 
+# Supported Operating Systems: CentOS 6.*/7.* Minimal, Ubuntu server 12.04/16.04 
 #  32bit and 64bit
 #
 #  Author Pascal Peyremorte (ppeyremorte@sentora.org)
@@ -54,7 +54,7 @@ ARCH=$(uname -m)
 
 echo "Detected : $OS  $VER  $ARCH"
 
-if [[ "$OS" = "CentOs" && ("$VER" = "6" || "$VER" = "7" ) || "$OS" = "Ubuntu" && ("$VER" = "12.04" || "$VER" = "14.04" ) ]] ; then
+if [[ "$OS" = "CentOs" && ("$VER" = "6" || "$VER" = "7" ) || "$OS" = "Ubuntu" && ("$VER" = "12.04" || "$VER" = "16.04" ) ]] ; then
     echo "Ok."
 else
     echo "Sorry, this OS is not supported by Sentora." 
@@ -113,16 +113,16 @@ elif [[ "$OS" = "Ubuntu" ]]; then
        dpkg -l "$1" 2> /dev/null | grep '^ii' &> /dev/null
     }
     
-    DB_PCKG="mysql-server"
+#    DB_PCKG="mysql-server"
     HTTP_PCKG="apache2"
-    PHP_PCKG="apache2-mod-php5"
+#    PHP_PCKG="apache2-mod-php5"
     BIND_PCKG="bind9"
 fi
   
 # Note : Postfix is installed by default on centos netinstall / minimum install.
 # The installer seems to work fine even if Postfix is already installed.
 # -> The check of postfix is removed, but this comment remains to remember
-for package in "$DB_PCKG" "dovecot-mysql" "$HTTP_PCKG" "$PHP_PCKG" "proftpd" "$BIND_PCKG" ; do
+for package in "$DB_PCKG" "dovecot-mysql" "$HTTP_PCKG" "proftpd" "$BIND_PCKG" ; do
     if (inst "$package"); then
         echo "It appears that package $package is already installed. This installer"
         echo "is designed to install and configure Sentora on a clean OS installation only!"
@@ -394,7 +394,7 @@ elif [[ "$OS" = "Ubuntu" ]]; then
     rm -rf "/etc/apt/sources.list/*"
     cp "/etc/apt/sources.list" "/etc/apt/sources.list.save"
 
-    if [ "$VER" = "14.04" ]; then
+    if [ "$VER" = "16.04" ]; then
         cat > /etc/apt/sources.list <<EOF
 #Depots main restricted
 deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main restricted universe multiverse
@@ -583,23 +583,33 @@ fi
 #--- MySQL
 echo -e "\n-- Installing MySQL"
 mysqlpassword=$(passwordgen);
-$PACKAGE_INSTALLER "$DB_PCKG"
-if [[ "$OS" = "CentOs" ]]; then
-    $PACKAGE_INSTALLER "DB_PCKG-devel" "$DB_PCKG-server" 
-    MY_CNF_PATH="/etc/my.cnf"
-    if  [[ "$VER" = "7" ]]; then
-        DB_SERVICE="mariadb"
-    else 
-        DB_SERVICE="mysqld"
-    fi
-elif [[ "$OS" = "Ubuntu" ]]; then
-    $PACKAGE_INSTALLER bsdutils libsasl2-modules-sql libsasl2-modules
-    if [ "$VER" = "12.04" ]; then
-        $PACKAGE_INSTALLER db4.7-util
-    fi
-    MY_CNF_PATH="/etc/mysql/my.cnf"
-    DB_SERVICE="mysql"
-fi
+
+apt-get install -yqq bsdutils libsasl2-modules-sql libsasl2-modules
+apt-get install -yqq software-properties-common
+apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://ftp.ddg.lth.se/mariadb/repo/10.1/ubuntu trusty main'
+apt-get update
+apt-get install -yqq mariadb-server
+#
+##$PACKAGE_INSTALLER "$DB_PCKG"
+#if [[ "$OS" = "CentOs" ]]; then
+#    $PACKAGE_INSTALLER "DB_PCKG-devel" "$DB_PCKG-server"
+#    MY_CNF_PATH="/etc/my.cnf"
+#    if  [[ "$VER" = "7" ]]; then
+#        DB_SERVICE="mariadb"
+#    else
+#        DB_SERVICE="mysqld"
+#    fi
+#elif [[ "$OS" = "Ubuntu" ]]; then
+#    $PACKAGE_INSTALLER bsdutils libsasl2-modules-sql libsasl2-modules
+#    if [ "$VER" = "12.04" ]; then
+#        $PACKAGE_INSTALLER db4.7-util
+#    fi
+#    MY_CNF_PATH="/etc/mysql/my.cnf"
+#    DB_SERVICE="mysql"
+#fi
+MY_CNF_PATH="/etc/mysql/my.cnf"
+DB_SERVICE="mysql"
 service $DB_SERVICE start
 
 # setup mysql root password
@@ -736,6 +746,7 @@ fi
 
 #--- Apache server
 echo -e "\n-- Installing and configuring Apache"
+apt-add-repository ppa:ondrej/apache2
 $PACKAGE_INSTALLER "$HTTP_PCKG"
 if [[ "$OS" = "CentOs" ]]; then
     $PACKAGE_INSTALLER "$HTTP_PCKG-devel"
@@ -800,7 +811,7 @@ if [[ "$OS" = "CentOs" ]]; then
     sed -i "s|DocumentRoot \"/var/www/html\"|DocumentRoot $PANEL_PATH/panel|" "$HTTP_CONF_PATH"
 elif [[ "$OS" = "Ubuntu" ]]; then
     # disable completely sites-enabled/000-default.conf
-    if [[ "$VER" = "14.04" ]]; then 
+    if [[ "$VER" = "16.04" ]]; then
         sed -i "s|IncludeOptional sites-enabled|#&|" "$HTTP_CONF_PATH"
     else
         sed -i "s|Include sites-enabled|#&|" "$HTTP_CONF_PATH"
@@ -817,7 +828,7 @@ elif [[ "$OS" = "Ubuntu" ]]; then
 fi
 
 # adjustments for apache 2.4
-if [[ ("$OS" = "CentOs" && "$VER" = "7") || ("$OS" = "Ubuntu" && "$VER" = "14.04") ]] ; then
+if [[ ("$OS" = "CentOs" && "$VER" = "7") || ("$OS" = "Ubuntu" && "$VER" = "16.04") ]] ; then
     # Order deny,allow / Deny from all   ->  Require all denied
     sed -i 's|Order deny,allow|Require all denied|I'  $PANEL_CONF/apache/httpd.conf
     sed -i '/Deny from all/d' $PANEL_CONF/apache/httpd.conf
@@ -840,18 +851,14 @@ fi
 
 #--- PHP
 echo -e "\n-- Installing and configuring PHP"
-if [[ "$OS" = "CentOs" ]]; then
-    $PACKAGE_INSTALLER php php-devel php-gd php-mbstring php-intl php-mysql php-xml php-xmlrpc
-    $PACKAGE_INSTALLER php-mcrypt php-imap  #Epel packages
-    PHP_INI_PATH="/etc/php.ini"
-    PHP_EXT_PATH="/etc/php.d"
-elif [[ "$OS" = "Ubuntu" ]]; then
-    apt-get update
+
+if [[ "$OS" = "Ubuntu" ]]; then
     $PACKAGE_INSTALLER software-properties-common
     add-apt-repository ppa:ondrej/php
+    apt-get -yqq update
 #    $PACKAGE_INSTALLER  php7.1 libapache2-mod-php7.1 php5-common php5-cli php5-mysql php5-gd php5-mcrypt php5-curl php-pear php5-imap php5-xmlrpc php5-xsl php5-intl
-    $PACKAGE_INSTALLER libapache2-mod-fastcgi php5.6-fpm php5.6 php5.6-xsl php5.6-xmlrpc php5.6-dev php5.6-imap php5.6-pear php5.6-common php5.6-mcrypt php5.6-mbstring php5.6-mysql php5.6-zip php5.6-gd php5.6-curl php5.6-xml php7.1-fpm libapache2-mod-fastcgi php7.1-fpm php7.1 php7.1-dev php7.1-mbstring php7.1-mysql php7.1-zip php7.1-gd php7.1-xml php7.1-curl php7.1-intl php7.1-json php7.1-mcrypt php7.1-xsl php7.1-xmlrpc php7.1-imap php7.1-pear php7.1-common
-
+    apt-get install -yqq libapache2-mod-fastcgi php5.6-cli php7.1-cli php5.6-fpm php5.6 php5.6-xsl php5.6-xmlrpc php5.6-dev php5.6-imap php5.6-common php5.6-mcrypt php5.6-mbstring php5.6-mysql php5.6-zip php5.6-gd php5.6-curl php5.6-xml php7.1-fpm libapache2-mod-fastcgi php7.1-fpm php7.1 php7.1-dev php7.1-mbstring php7.1-mysql php7.1-zip php7.1-gd php7.1-xml php7.1-curl php7.1-intl php7.1-json php7.1-mcrypt php7.1-xsl php7.1-xmlrpc php7.1-imap php7.1-common
+    apt-get -yqq autoremove
     a2dismod mpm_prefork
     a2dismod php7.1 php5.6 mpm_prefork
     a2enmod actions fastcgi alias mpm_worker
@@ -898,7 +905,7 @@ sed -i "s|;upload_tmp_dir =|upload_tmp_dir = $PANEL_DATA/temp/|" $PHP_INI_PATH
 sed -i "s|expose_php = On|expose_php = Off|" $PHP_INI_PATH
 
 # Build suhosin for PHP 5.x which is required by Sentora. 
-if [[ "$OS" = "CentOs" || ( "$OS" = "Ubuntu" && "$VER" = "14.04") ]] ; then
+if [[ "$OS" = "CentOs" || ( "$OS" = "Ubuntu" && "$VER" = "16.04") ]] ; then
     echo -e "\n# Building suhosin"
     if [[ "$OS" = "Ubuntu" ]]; then
         $PACKAGE_INSTALLER php7.1-dev php5.6-dev git
@@ -915,12 +922,13 @@ if [[ "$OS" = "CentOs" || ( "$OS" = "Ubuntu" && "$VER" = "14.04") ]] ; then
     cd ..
     rm -rf suhosin-0.9.38
     echo 'extension=suhosin.so' > /etc/php/5.6/fpm/conf.d/suhosin.ini
+    echo 'extension=suhosin.so' > /etc/php/5.6/mods-available/suhosin.ini
 
     cd /tmp/
     git clone https://github.com/mk-j/PHP_diseval_extension/
     cd PHP_diseval_extension/source/
-    ./configure
     phpize &> /dev/null
+    ./configure
     make &> /dev/null
     make install
     echo 'extension=diseval.so' > /etc/php/7.1/fpm/conf.d/diseval.ini
@@ -934,7 +942,8 @@ if [[ "$OS" = "CentOs" || ( "$OS" = "Ubuntu" && "$VER" = "14.04") ]] ; then
     ./configure
     make
     make install
-    echo 'extension=suhosin.so' > /etc/php/7.1/fpm/conf.d/suhosin.ini
+    echo 'extension=suhosin7.so' > /etc/php/7.1/fpm/conf.d/suhosin.ini
+    echo 'extension=suhosin7.so' > /etc/php/7.1/mods-available/suhosin.ini
 
 fi
 
@@ -986,9 +995,9 @@ ln -s "$PANEL_CONF/proftpd/proftpd-mysql.conf" "$FTP_CONF_PATH"
 mkdir -p $PANEL_DATA/logs/proftpd
 chmod -R 644 $PANEL_DATA/logs/proftpd
 
-# Correct bug from package in Ubutu14.04 which screw service proftpd restart
+# Correct bug from package in Ubutu16.04 which screw service proftpd restart
 # see https://bugs.launchpad.net/ubuntu/+source/proftpd-dfsg/+bug/1246245
-if [[ "$OS" = "Ubuntu" && "$VER" = "14.04" ]]; then
+if [[ "$OS" = "Ubuntu" && "$VER" = "16.04" ]]; then
    sed -i 's|\([ \t]*start-stop-daemon --stop --signal $SIGNAL \)\(--quiet --pidfile "$PIDFILE"\)$|\1--retry 1 \2|' /etc/init.d/proftpd
 fi
 
